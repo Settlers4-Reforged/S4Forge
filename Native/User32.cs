@@ -1,5 +1,8 @@
-﻿using System;
+﻿using Forge.Logging;
+
+using System;
 using System.Collections.Generic;
+using System.Numerics;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.Marshalling;
 using System.Text;
@@ -17,17 +20,24 @@ namespace Forge.Native {
             public int W;
         }
 
-        [DllImport("user32.dll", SetLastError = true)]
-        public static extern bool GetCursorPos(out Pos lpPoint);
+        [LibraryImport("user32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static partial bool GetCursorPos(out Pos lpPoint);
 
-        [DllImport("user32.dll", SetLastError = true)]
-        public static extern bool ScreenToClient(IntPtr hWnd, ref Pos lpPoint);
+        [LibraryImport("user32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static partial bool ScreenToClient(IntPtr hWnd, ref Pos lpPoint);
 
-        [DllImport("user32.dll", SetLastError = true)]
-        public static extern bool GetWindowRect(IntPtr hWnd, ref Rect lpRect);
+        [LibraryImport("user32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static partial bool GetWindowRect(IntPtr hWnd, ref Rect lpRect);
 
-        [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
-        private static extern int MessageBox(IntPtr hWnd, string text, string caption, uint type);
+        [LibraryImport("user32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static partial bool GetClientRect(IntPtr hWnd, out Rect lpRect);
+
+        [LibraryImport("user32.dll", SetLastError = true, StringMarshalling = StringMarshalling.Utf8)]
+        private static partial int MessageBox(IntPtr hWnd, string text, string caption, uint type);
 
         [LibraryImport("user32.dll", SetLastError = true)]
         public static partial IntPtr SetCapture(IntPtr hWnd);
@@ -53,8 +63,12 @@ namespace Forge.Native {
 
                     if (winMains == null) return 0;
                     foreach (WndProcDelegate winMain in winMains) {
-                        if (winMain((WndProcMsg)msg, new UIntPtr(param), new UIntPtr((uint)lParam))) {
-                            return 1;
+                        try {
+                            if (winMain((WndProcMsg)msg, new UIntPtr(param), new UIntPtr((uint)lParam))) {
+                                return 1;
+                            }
+                        } catch (Exception e) {
+                            Logger.LogError(e, "Error during WndProc callback");
                         }
                     }
 
