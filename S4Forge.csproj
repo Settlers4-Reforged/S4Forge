@@ -49,13 +49,13 @@
 
         <None Include="README.md" Pack="true" PackagePath="\" />
 
-        <PackageReference Include="AutomaticInterface" Version="5.0.1">
+        <PackageReference Include="AutomaticInterface" Version="5.2.0">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
 
         <PackageReference Include="DryIoc" Version="5.4.3" PrivateAssets="all" />
-        <PackageReference Include="S4Forge.SDK" Version="0.5.*" PrivateAssets="all"/>
+        <PackageReference Include="S4Forge.SDK" Version="0.5.*" PrivateAssets="all" />
         <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
     </ItemGroup>
 
@@ -67,12 +67,12 @@
     <Choose>
         <When Condition="'$(SolutionName)'=='S4ModdingFramework'">
             <ItemGroup>
-                <ProjectReference Include="..\APIWrapper\S4ForgeBootstrapper.vcxproj"/>
+                <ProjectReference Include="..\APIWrapper\S4ForgeBootstrapper.vcxproj" />
             </ItemGroup>
         </When>
         <Otherwise>
             <ItemGroup>
-                <PackageReference Include="S4Forge.Bootstrapper" Version="0.8.*"/>
+                <PackageReference Include="S4Forge.Bootstrapper" Version="0.8.*" />
             </ItemGroup>
         </Otherwise>
     </Choose>
