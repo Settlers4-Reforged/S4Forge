@@ -17,6 +17,9 @@ namespace Forge.S4.Game {
             ModAPI.API.PlaySound(id);
         }
 
+        /// <summary>
+        /// The music volume, from 0 to 100. If set to 0, music is disabled.
+        /// </summary>
         public int MusicVolume {
             get => ModAPI.API.GetMusicEnabled() == 0 ? 0 : ModAPI.API.GetMusicVolume();
             set {
@@ -29,6 +32,9 @@ namespace Forge.S4.Game {
             }
         }
 
+        /// <summary>
+        /// The sound (effects like chirping, etc.) volume, from 0 to 100. If set to 0, sound is disabled.
+        /// </summary>
         public int SoundVolume {
             get => ModAPI.API.GetSoundEnabled() == 0 ? 0 : ModAPI.API.GetSoundVolume();
             set {
