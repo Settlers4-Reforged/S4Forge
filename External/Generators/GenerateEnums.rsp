@@ -1,8 +1,8 @@
 --output
-../../S4/Types/Native/Types.cs
+../../Native/Types.cs
 --file
 ../enums.h
 --namespace
-Forge.S4.Types.Native
+Forge.Native
 --config
 single-file

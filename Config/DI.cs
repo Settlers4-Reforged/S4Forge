@@ -1,12 +1,7 @@
 ﻿using DryIoc;
 
+using Forge.Game.Core;
 using Forge.Notifications;
-using Forge.S4.Callbacks;
-using Forge.S4.Managers;
-
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Forge.Config {
     public static class DI {
@@ -28,13 +23,6 @@ namespace Forge.Config {
         public static void Reset() {
             Dependencies.Dispose();
             Dependencies = new Container(rules => rules.WithFuncAndLazyWithoutRegistration());
-        }
-
-        public static void RegisterDefaultDependencies(S4Forge forge) {
-            Dependencies.RegisterInstanceMany(forge);
-            Dependencies.Register<ICallbacks, Callbacks>(Reuse.Singleton);
-            ApiManager.RegisterDependencies();
-            NotificationsService.RegisterDependencies();
         }
     }
 }

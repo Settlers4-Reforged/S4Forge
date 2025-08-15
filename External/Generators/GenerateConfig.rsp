@@ -1,0 +1,6 @@
+--output
+../../Game/Config/Native/
+--file
+../Config/ConfigManager.h
+--namespace
+Forge.Game.Config.Native

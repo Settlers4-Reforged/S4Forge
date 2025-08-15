@@ -1,5 +1,5 @@
-﻿using Forge.Logging;
-using Forge.S4.Managers;
+﻿using Forge.Game.Config;
+using Forge.Logging;
 
 using System;
 using System.Collections.Generic;
@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Forge.I18n {
     public class TextTranslation {
-        protected static string gameLanguage => GameConfig.GetLanguage();
+        protected static string gameLanguage => GameSettings.GetLanguage();
 
         public Dictionary<string, string> textTranslations;
 

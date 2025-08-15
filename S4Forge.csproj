@@ -64,6 +64,10 @@
         <None Remove=".gitignore" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Game\Core\Native\" />
+    </ItemGroup>
+
     <Choose>
         <When Condition="'$(SolutionName)'=='S4ModdingFramework'">
             <ItemGroup>

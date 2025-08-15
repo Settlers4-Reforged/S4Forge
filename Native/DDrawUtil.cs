@@ -1,5 +1,4 @@
 ﻿using Forge.Logging;
-using Forge.S4;
 
 using System;
 using System.Linq;

@@ -1,6 +1,6 @@
 --output
-../../S4/Types/Native/Entities/
+../../Game/World/Entities/Native/
 --file
 ../Entities/entities.h
 --namespace
-Forge.S4.Types.Native.Entities
+Forge.Game.World.Entities.Native

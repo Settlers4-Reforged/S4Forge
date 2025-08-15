@@ -4,11 +4,10 @@ using DryIoc;
 
 using Forge.Config;
 using Forge.Engine;
+using Forge.Game.Core;
 using Forge.Logging;
 using Forge.Native;
 using Forge.Notifications;
-using Forge.S4.Callbacks;
-using Forge.S4.Managers;
 
 using NetModAPI;
 
@@ -18,6 +17,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.ConstrainedExecution;
 using System.Runtime.ExceptionServices;
 using System.Runtime.InteropServices;
@@ -31,6 +31,7 @@ using NetLogger = NetModAPI.Logger;
 namespace Forge {
     public class S4Forge : IForge {
 
+        // TODO: .NET Counters!!
         public void Initialize() {
             Logger.LogInfo("Initializing Forge...");
 
@@ -38,7 +39,10 @@ namespace Forge {
 
             AddExceptionHandling();
 
-            DI.RegisterDefaultDependencies(this);
+            DI.Dependencies.RegisterInstanceMany(this);
+            DI.Dependencies.Register<ICallbacks, Callbacks>(Reuse.Singleton);
+            ApiManager.RegisterDependencies();
+            NotificationsService.RegisterDependencies();
 
             EngineLoader.LoadAllEngines(DI.Dependencies);
 
