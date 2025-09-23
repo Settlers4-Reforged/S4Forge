@@ -11,6 +11,8 @@ using System.Text;
 
 namespace Forge.Config {
     public static partial class AssemblyInitializations {
+        private static CLogger Logger = LoggerManager.ForgeLogger.WithEnumCategory(ForgeLogCategory.Setup);
+
         private static List<Assembly> assemblies = new List<Assembly>();
         private static readonly List<string> folders = new List<string>();
 
@@ -28,7 +30,7 @@ namespace Forge.Config {
 
         public static void AddFolderLoadSource(string path) {
 #pragma warning disable CS0618 // Type or member is obsolete
-            Logger.LogDebug($"Adding folder {path} to AssemblyLoadSource...");
+            Logger.Log(LogLevel.Debug, $"Adding folder {path} to AssemblyLoadSource...");
 
             AppDomain.CurrentDomain.AppendPrivatePath(path);
             AddDllDirectory(path);
@@ -54,23 +56,23 @@ namespace Forge.Config {
 
                 foreach (Assembly assembly in assemblies) {
                     if (assembly.GetName().Name == assemblyName) {
-                        Logger.LogDebug($"Assembly {assemblyName} already loaded");
+                        Logger.Log(LogLevel.Debug, $"Assembly {assemblyName} already loaded");
                         return assembly;
                     }
 
-                    Logger.LogDebug($"Checking assembly {assembly.GetName().Name} for {resourceName}");
+                    Logger.Log(LogLevel.Debug, $"Checking assembly {assembly.GetName().Name} for {resourceName}");
                     string? resource = Array.Find(assembly.GetManifestResourceNames(), element => element.EndsWith(resourceName, StringComparison.InvariantCultureIgnoreCase));
                     if (resource == null)
                         continue;
 
-                    Logger.LogInfo($"Loading {assemblyName} from Embedded Resources of source assembly {assembly.GetName().Name}...");
+                    Logger.Log(LogLevel.Info, $"Loading {assemblyName} from Embedded Resources of source assembly {assembly.GetName().Name}...");
 
                     using Stream stream = assembly.GetManifestResourceStream(resource)!;
 
                     byte[] assemblyData = new byte[stream.Length];
                     int read = stream.Read(assemblyData, 0, assemblyData.Length);
                     if (read != assemblyData.Length) {
-                        Logger.LogError(null, $"Failed to read all bytes from embedded resource {resource} of assembly {assembly.GetName().Name}");
+                        Logger.TraceF(LogLevel.Error, $"Failed to read all bytes from embedded resource {resource} of assembly {assembly.GetName().Name}");
                         return null;
                     }
                     return Assembly.Load(assemblyData);
@@ -84,18 +86,12 @@ namespace Forge.Config {
                     if (!File.Exists(path))
                         continue;
 
-                    Logger.LogInfo($"Loading {assemblyName} from {path}...");
+                    Logger.Log(LogLevel.Info, $"Loading {assemblyName} from {path}...");
 
                     return Assembly.LoadFrom(path);
                 }
 
-                string extraInfo = "";
-#if DEBUG
-                extraInfo = "\n#####################\n" + new StackTrace().ToString();
-#endif
-
-                Logger.LogError(null, $"Failed to find assembly {assemblyName} in any of the following folders:\n{string.Join("\n", searchedFolders)}{extraInfo}");
-
+                Logger.TraceF(LogLevel.Error, $"Failed to find assembly {assemblyName} in any of the following folders:\n{string.Join("\n", searchedFolders)}");
                 return null;
             };
         }

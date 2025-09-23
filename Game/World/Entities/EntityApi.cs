@@ -51,6 +51,7 @@ namespace Forge.Game.World.Entities {
 
     //[GenerateAutomaticInterface]
     internal sealed class EntityApi : IEntityApi {
+        private readonly CLogger Logger;
         private readonly IMap map;
 
         public unsafe IEntity** BackingEntityPool => (IEntity**)GameValues.GetPointer<IEntity>(0xE9BC38);
@@ -60,7 +61,8 @@ namespace Forge.Game.World.Entities {
 
         public unsafe Selection_t* Selection => GameValues.GetPointer<Selection_t>(0x10865A4);
 
-        public EntityApi(ICallbacks callbacks, IMap map) {
+        public EntityApi(CLogger logger, ICallbacks callbacks, IMap map) {
+            this.Logger = logger.WithEnumCategory(ForgeLogCategory.Game);
             this.map = map;
         }
 
@@ -99,7 +101,7 @@ namespace Forge.Game.World.Entities {
 
         public nint GetBackingEntity(uint id) {
             if (id >= EntityPoolSize) {
-                Logger.LogWarn($"Entity ID {id} out of range");
+                Logger.TraceF(LogLevel.Warning, "Entity ID {0} out of range", id);
                 return nint.Zero;
             }
 
@@ -110,7 +112,7 @@ namespace Forge.Game.World.Entities {
 
         public unsafe IEntity* GetEntity(uint id) {
             if (id >= EntityPoolSize) {
-                Logger.LogWarn($"Entity ID {id} out of range");
+                Logger.TraceF(LogLevel.Warning, "Entity ID {0} out of range", id);
                 return null;
             }
 

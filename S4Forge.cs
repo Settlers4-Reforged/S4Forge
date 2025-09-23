@@ -25,15 +25,15 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-using Logger = Forge.Logging.Logger;
-using NetLogger = NetModAPI.Logger;
-
 namespace Forge {
     public class S4Forge : IForge {
+        private CLogger Logger = LoggerManager.ForgeLogger.WithEnumCategory(ForgeLogCategory.Core);
 
         // TODO: .NET Counters!!
         public void Initialize() {
-            Logger.LogInfo("Initializing Forge...");
+            LoggerManager.PrepareLogger();
+
+            Logger.Log(LogLevel.Info, "Initializing Forge...");
 
             AssemblyInitializations.InitAssemblyLoadHandler();
 
@@ -49,26 +49,26 @@ namespace Forge {
             ApiManager.ResolveDependencies();
 
             if (!ModuleLoader.LoadAllModules(DI.Dependencies)) {
-                Logger.LogError(null, "There was an error during the loading of one (or all) modules");
+                Logger.Log(LogLevel.Error, "There was an error during the loading of one (or all) modules");
             } else {
-                Logger.LogInfo("Finished loading all modules");
+                Logger.Log(LogLevel.Info, "Finished loading all modules");
             }
 
             ModuleLoader.InformModulesLoadedCallbacks(DI.Dependencies);
 
-            Logger.LogDebug("Activating all registered plugins");
+            Logger.Log(LogLevel.Debug, "Activating all registered plugins");
             var genericPlugins = DI.Dependencies.Resolve<IPlugin[]>();
             foreach (var plugin in genericPlugins) {
                 plugin.Activate();
             }
 
-            Logger.LogInfo("Finished initializing Forge");
+            Logger.Log(LogLevel.Info, "Finished initializing Forge");
         }
 
         private void AddExceptionHandling() {
             AppDomain.CurrentDomain.UnhandledException += UnhandledExceptionHandler;
             AppDomain.CurrentDomain.FirstChanceException += AppendNativeStackToExceptionHandler;
-            Logger.LogInfo("Added exception handling");
+            Logger.Log(LogLevel.Info, "Added exception handling");
         }
 
         private void AppendNativeStackToExceptionHandler(object? sender, FirstChanceExceptionEventArgs e) {
@@ -80,7 +80,7 @@ namespace Forge {
         private void UnhandledExceptionHandler(object s, UnhandledExceptionEventArgs e) {
             Exception exception = (Exception)e.ExceptionObject;
 
-            Logger.LogError(exception, "Forge detected an unhandled exception");
+            Logger.TraceExceptionF(LogLevel.Error, exception, "Forge detected an unhandled exception");
 
 #if DEBUG
             User32.MessageBox($"Forge detected an unhandled managed exception and is now halting execution.\n{exception.Message}\nEither attach a debugger, or ignore this error", "S4Forge");

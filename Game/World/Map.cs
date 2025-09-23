@@ -10,6 +10,11 @@ using Forge.S4.Types;
 namespace Forge.Game.World {
     [GenerateAutomaticInterface]
     public class Map : IMap {
+        private CLogger Logger;
+        public Map(CLogger logger) {
+            Logger = logger;
+        }
+
         public uint Size => ModAPI.API.MapSize();
 
         public uint GetTileHeightAt(int x, int y) {
@@ -60,7 +65,7 @@ namespace Forge.Game.World {
             }
 
             // This should never happen:
-            Logger.LogWarn("Unknown resource type: " + resourceAndLevel);
+            Logger.TraceF(LogLevel.Warning, "Unknown resource type: " + resourceAndLevel);
 
             return null;
         }
@@ -128,12 +133,12 @@ namespace Forge.Game.World {
         /// </remarks>
         public int Level { get; set; }
 
-        internal S4_RESOURCE_ENUM ToNative() {
+        internal ResourceType ToNative() {
             if (Level == 0) {
                 return 0;
             }
 
-            return (S4_RESOURCE_ENUM)((int)Type + Level - 1);
+            return (ResourceType)((int)Type + Level - 1);
         }
     }
 }

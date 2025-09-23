@@ -11,6 +11,8 @@ using System.Reflection;
 
 namespace Forge.Engine {
     internal static class EngineLoader {
+        private static CLogger Logger = LoggerManager.ForgeLogger.WithEnumCategory(ForgeLogCategory.Setup);
+
         public static Type? GetIEngine(Assembly assembly) {
             Type[] types = assembly.GetExportedTypes();
 
@@ -30,20 +32,20 @@ namespace Forge.Engine {
 
             var engines = DI.Dependencies.ResolveMany<IEngine>();
             foreach (IEngine engine in engines) {
-                Logger.LogInfo($"Initializing \"{engine.Name}\"...");
+                Logger.Log(LogLevel.Info, $"Initializing \"{engine.Name}\"...");
                 engine.Initialize();
-                Logger.LogInfo($"Finished initializing \"{engine.Name}\"...");
+                Logger.Log(LogLevel.Info, $"Finished initializing \"{engine.Name}\"...");
             }
 
         }
 
         private static void RegisterAvailableEngines(Container dependencies) {
-            Logger.LogInfo("Searching for available engines...");
-            Logger.LogDebug("Searching for the following engines: {0}", string.Join(", ", Engines));
+            Logger.Log(LogLevel.Info, "Searching for available engines...");
+            Logger.LogF(LogLevel.Debug, "Searching for the following engines: {0}", string.Join(", ", Engines));
 
             foreach (string engine in Engines) {
                 if (!System.IO.File.Exists(AbsoluteEnginePath + engine)) {
-                    Logger.LogWarn("Engine \"{0}\" not found at \"{1}\"", engine, AbsoluteEnginePath);
+                    Logger.LogF(LogLevel.Warning, "Engine \"{0}\" not found at \"{1}\"", engine, AbsoluteEnginePath);
                     continue;
                 }
 
@@ -59,9 +61,9 @@ namespace Forge.Engine {
 
                     dependencies.RegisterMany(new[] { iEngine }, Reuse.Singleton);
 
-                    Logger.LogInfo("Registered engine \"{0}\" at \"{1}\"", engine, AbsoluteEnginePath);
+                    Logger.LogF(LogLevel.Info, "Registered engine \"{0}\" at \"{1}\"", engine, AbsoluteEnginePath);
                 } catch (Exception ex) {
-                    Logger.LogError(ex, "Failed to load engine \"{0}\" at \"{1}\"", engine, AbsoluteEnginePath);
+                    Logger.TraceExceptionF(LogLevel.Error, ex, "Failed to load engine \"{0}\" at \"{1}\"", engine, AbsoluteEnginePath);
                 }
             }
         }

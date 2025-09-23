@@ -16,6 +16,8 @@ using System.Text.Json.Serialization;
 
 namespace Forge.Engine {
     internal static class ModuleLoader {
+        private static CLogger Logger = LoggerManager.ForgeLogger.WithEnumCategory(ForgeLogCategory.Setup);
+
         /// <summary>
         /// An extension to the ForgeUpdater manifest. Manifest struct is not imported to avoid dependency
         /// </summary>
@@ -80,7 +82,7 @@ namespace Forge.Engine {
                 // Check if config file exists
                 string configFilePath = Path.Combine(directory, ModuleInfo.ConfigFileName);
                 if (!File.Exists(configFilePath)) {
-                    Logger.LogInfo("Module at '{0}' is missing a config file.", directory);
+                    Logger.LogF(LogLevel.Info, "Module at '{0}' is missing a config file.", directory);
                     continue;
                 }
 
@@ -89,7 +91,7 @@ namespace Forge.Engine {
                 try {
                     moduleInfo = JsonSerializer.Deserialize<ModuleInfo>(File.ReadAllText(configFilePath), jsonSerializerOptions) ?? throw new SerializationException("Failed to deserialize module config file.");
                 } catch (Exception e) {
-                    Logger.LogError(e, $"Error during load of config file '{configFilePath}'");
+                    Logger.TraceExceptionF(LogLevel.Error, e, "Error during load of config file '{0}'", configFilePath);
                     continue;
                 }
 
@@ -97,12 +99,12 @@ namespace Forge.Engine {
                 modules.Add(moduleInfo);
             }
 
-            Logger.LogInfo($"Found {modules.Count} module(s) to load.");
+            Logger.Log(LogLevel.Info, $"Found {modules.Count} module(s) to load.");
 
             foreach (ModuleInfo module in modules) {
                 try {
                     if (module.directory == null) {
-                        Logger.LogError(null, $"Module '{module.Id}' is missing a directory.");
+                        Logger.LogF(LogLevel.Error, "Module '{0}' is missing a directory.", module.Id);
                         continue;
                     }
 
@@ -115,7 +117,7 @@ namespace Forge.Engine {
                         ModuleInfo? foundDependency = modules.FirstOrDefault(p => p.Id == dependency.Id);
                         if (foundDependency != null) continue;
 
-                        Logger.LogError(null, "Module '{0}' has a dependency '{1}' that does not exist.", module.Id, dependency.Id);
+                        Logger.LogF(LogLevel.Error, "Module '{0}' has a dependency '{1}' that does not exist.", module.Id, dependency.Id);
                         missingDependencies = true;
                         break;
                     }
@@ -128,11 +130,11 @@ namespace Forge.Engine {
                     // Check if module assembly exists
                     string modulePath = Path.Combine(directory, module.EntryPoint);
                     if (!File.Exists(modulePath)) {
-                        Logger.LogWarn("Module {0} is missing it's entry point assembly: '{1}'.", module.Id, modulePath);
+                        Logger.LogF(LogLevel.Warning, "Module {0} is missing it's entry point assembly: '{1}'.", module.Id, modulePath);
                         continue;
                     }
 
-                    Logger.LogInfo("Loading module '{0}'...", module.Id);
+                    Logger.LogF(LogLevel.Info, "Loading module '{0}'...", module.Id);
 
                     AssemblyInitializations.AddFolderLoadSource(directory);
 
@@ -145,7 +147,7 @@ namespace Forge.Engine {
                         e = e.InnerException;
                     }
 
-                    Logger.LogError(e, $"Error during load of module '{module.Id}'");
+                    Logger.TraceExceptionF(LogLevel.Error, e, $"Error during load of module '{module.Id}'");
                 }
             }
 
@@ -179,7 +181,7 @@ namespace Forge.Engine {
 
         private static void LoadModule(Container dependencies, string file, string directory) {
             string msg = $"Loading module assembly '{file}'...";
-            Logger.LogInfo(msg);
+            Logger.Log(LogLevel.Info, msg);
 
             Assembly moduleAssembly = Assembly.LoadFrom(file);
             AssemblyInitializations.AddAssemblyLoadSource(moduleAssembly);
@@ -193,16 +195,16 @@ namespace Forge.Engine {
                                   select t];
 
             if (moduleTypes.Length == 0) {
-                Logger.LogError(null, "Failed to find any valid module classes in '$0'", file);
+                Logger.LogF(LogLevel.Error, "Failed to find any valid module classes in '{0}'", file);
                 return;
             }
 
             if (moduleTypes.Length > 1) {
-                Logger.LogWarn("Found more than 1 ($0) module implementation in $1", moduleTypes.Length, file);
+                Logger.LogF(LogLevel.Warning, "Found more than 1 ({0}) module implementation in {1}", moduleTypes.Length, file);
             }
 
             foreach (Type moduleType in moduleTypes) {
-                Logger.LogInfo($"Found Module '{moduleType.Name}'");
+                Logger.LogF(LogLevel.Info, "Found Module '{0}'", moduleType.Name);
                 dependencies.RegisterMany(new[] { moduleType }, Reuse.Singleton);
 
                 // Register the module's environment too:
@@ -216,7 +218,7 @@ namespace Forge.Engine {
                     object moduleEnvironment = Activator.CreateInstance(moduleEnvironmentType, BindingFlags.NonPublic | BindingFlags.Instance, null, new object[] { modulePath }, CultureInfo.InvariantCulture)!;
                     dependencies.RegisterInstance(moduleEnvironmentType, moduleEnvironment, IfAlreadyRegistered.Throw);
                 } catch (Exception e) {
-                    Logger.LogError(e, $"Failed to register module environment for '{moduleType.Name}'");
+                    Logger.TraceExceptionF(LogLevel.Error, e, "Failed to register module environment for '{0}'", moduleType.Name);
                     throw; // This is an indication that something much bigger is wrong, so just add a log and continue the throw
                 }
             }
@@ -228,17 +230,10 @@ namespace Forge.Engine {
 
             foreach (IModule module in modules) {
                 try {
-                    Logger.LogInfo($"Initializing module '{module.GetType().Name}' with a priority of {module.Priority}...");
+                    Logger.LogF(LogLevel.Info, "Initializing module '{0}' with a priority of {1}...", module.GetType().Name, module.Priority);
                     module.Initialize(dependencies);
                 } catch (Exception e) {
-                    string stackTrace = e.StackTrace ?? "N/A";
-                    while (e.InnerException != null) {
-                        e = e.InnerException;
-                    }
-
-                    string errorMsg =
-                        $"Error during initialization of module '{module.GetType().Name}'\nError: {e.Message}\n\n============= Stack Trace =============\n{stackTrace}";
-                    Logger.LogError(e, errorMsg);
+                    Logger.TraceExceptionF(LogLevel.Error, e, "Error during initialization of module '{0}'", module.GetType().Name);
                 }
             }
         }

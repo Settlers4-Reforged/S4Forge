@@ -10,6 +10,8 @@ using System.Threading.Tasks;
 
 namespace Forge.I18n {
     public class TextTranslation {
+        private static CLogger Logger = LoggerManager.ForgeLogger.WithEnumCategory(ForgeLogCategory.Config);
+
         protected static string gameLanguage => GameSettings.GetLanguage();
 
         public Dictionary<string, string> textTranslations;
@@ -48,7 +50,7 @@ namespace Forge.I18n {
                 string[] keys = lines[lineIndex].Split(',');
                 if (keys.Length == 0) continue;
                 if (keys[0].StartsWith("#", StringComparison.InvariantCultureIgnoreCase)) continue; // Commented out line (starts with #)
-                if (keys.Length != fileLanguages.Length + 1) { Logger.LogError(null, $"Invalid CSV format at line {lineIndex} for translation key {key}"); continue; }
+                if (keys.Length != fileLanguages.Length + 1) { Logger.TraceF(LogLevel.Error, "Invalid CSV format at line {0} for translation key {1}", lineIndex, key); continue; }
 
 
                 string lineKey = keys[0];
@@ -62,7 +64,7 @@ namespace Forge.I18n {
                 return translation;
             }
 
-            Logger.LogError(null, "Failed to find translation key ${0} in csv '${1}'", key, path);
+            Logger.TraceF(LogLevel.Error, "Failed to find translation key ${0} in csv '${1}'", key, path);
             return new TextTranslation(("en", "NOT FOUND"));
         }
     }

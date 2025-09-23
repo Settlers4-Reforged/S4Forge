@@ -8,7 +8,9 @@ using System.Runtime.InteropServices.Marshalling;
 using System.Text;
 
 namespace Forge.Native {
-    public partial class User32 {
+    public static partial class User32 {
+        private static CLogger Logger = LoggerManager.ForgeLogger.WithEnumCategory(ForgeLogCategory.Native);
+
         public struct Pos {
             public int X;
             public int Y;
@@ -68,7 +70,7 @@ namespace Forge.Native {
                                 return 1;
                             }
                         } catch (Exception e) {
-                            Logger.LogError(e, "Error during WndProc callback");
+                            Logger.TraceExceptionF(LogLevel.Error, e, "Error during WndProc callback");
                         }
                     }
 
