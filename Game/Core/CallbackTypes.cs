@@ -1,28 +1,23 @@
 ﻿using Forge.Game.UI;
 using Forge.Game.UI.Native;
+using Forge.Native.DirectX;
 
 using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using System.Security.Cryptography;
-using System.Text;
-
-using DirectDrawSurface = Microsoft.DirectX.DirectDraw.Surface;
 
 namespace Forge.Game.Core {
     #region Delegates
 
-    public delegate void GameFrameCallback(DirectDrawSurface? surface, int pillarBoxWidth);
+    public unsafe delegate void GameFrameCallback(IDirectDrawSurface7* surface, int pillarBoxWidth);
     public delegate void MapInitCallback();
-    public unsafe delegate void MouseCallbackUnsafe(uint mouseButton, int x, int y, uint msgId, S4UIElement* uiElement);
-    public delegate void MouseCallback(uint mouseButton, int x, int y, uint msgId, S4UIElement? uiElement);
+    public unsafe delegate void MouseCallbackUnsafe(uint mouseButton, uint x, uint y, uint msgId, S4UIElement* uiElement);
+    public delegate void MouseCallback(uint mouseButton, uint x, uint y, uint msgId, S4UIElement? uiElement);
     public delegate void SettlerSendCallback(uint position, uint command);
     public delegate void TickCallback(uint tick, bool hasEvent, bool isDelayed);
     public delegate void LuaOpenCallback();
     public delegate void DrawEntityCallback(S4EntityDrawParams parameter, bool discard);
     public delegate void SurfaceDrawCallback(nint bltParams, bool discard);
     public delegate void EntityCallback(ushort entity, ushort cause);
-    public delegate void UIElementDrawCallback(S4UIElementDrawParams bltParams, S4UIElement? uiElement, bool discard);
     public unsafe delegate void UIElementDrawCallbackUnsafe(S4UIElementDrawParams bltParams, S4UIElement* uiElement, bool discard);
     public delegate void SurfaceClearCallback(nint bltParams, bool discard);
     #endregion

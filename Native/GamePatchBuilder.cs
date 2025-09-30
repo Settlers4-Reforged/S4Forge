@@ -1,21 +1,22 @@
-﻿using Forge.Native;
-
-using NetModAPI;
+﻿using Forge.Config;
+using Forge.Native;
+using Forge.Native.MemoryPatcher;
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 using System.Text;
 
-using APICallPatch = NetModAPI.CallPatch;
-using APIJumpPatch = NetModAPI.JmpPatch;
-using APINopPatch = NetModAPI.NopPatch;
-using APIPatch = NetModAPI.Patch;
 
 namespace Forge.Patching {
     public abstract class GamePatchBuilder<T> where T : GamePatchBuilder<T> {
         // ReSharper disable once InconsistentNaming
-        private static int S4_Main => GameValues.S4_Main;
+        static GamePatchBuilder() {
+            S4_Main = DI.Resolve<IGameValues>().S4_Main;
+        }
+
+        protected static int S4_Main { get; }
 
         protected nint? sourceAddress;
         public T At(int address) {
@@ -33,13 +34,14 @@ namespace Forge.Patching {
             return (T)this;
         }
 
-        public void ValidateRequiredValues() {
+        [MemberNotNull(nameof(sourceAddress))]
+        public virtual void ValidateRequiredValues() {
             if (sourceAddress == null) {
                 throw new InvalidOperationException("Source address must be set");
             }
         }
 
-        public abstract GamePatch Build();
+        public abstract IPatch Build();
     }
 
     public sealed class PatchBuilder : GamePatchBuilder<PatchBuilder> {
@@ -49,31 +51,47 @@ namespace Forge.Patching {
             return this;
         }
 
-        public override GamePatch Build() {
-            ValidateRequiredValues();
+        [MemberNotNull(nameof(patchBytes))]
+        public override void ValidateRequiredValues() {
+            base.ValidateRequiredValues();
 
             if (patchBytes == null) {
                 throw new InvalidOperationException("Patch bytes must be set");
             }
+        }
 
-            APIPatch patch;
+        public override IPatch Build() {
+            ValidateRequiredValues();
+
+            Patch patch = new Patch(sourceAddress.Value.ToInt32(), patchBytes); ;
             if (expectedBytes != null)
-                patch = new APIPatch(sourceAddress!.Value.ToInt32(), patchBytes, expectedBytes);
-            else
-                patch = new APIPatch(sourceAddress!.Value.ToInt32(), patchBytes);
+                patch.AssertExpectedBytes(expectedBytes);
 
-            return new GamePatch(patch);
+            return patch;
         }
     }
 
     public sealed class CallPatchBuilder : GamePatchBuilder<CallPatchBuilder> {
         private nint? destinationAddress;
+        // Methods: 0xE8 (call), 0xE9 (jmp)
+        private byte method = 0xE8;
+        private int nops;
+
+        [MemberNotNull(nameof(destinationAddress))]
+        public override void ValidateRequiredValues() {
+            base.ValidateRequiredValues();
+
+            if (destinationAddress == null) {
+                throw new InvalidOperationException("Destination address must be set");
+            }
+        }
+
         public CallPatchBuilder To(int address) {
             destinationAddress = new nint(address);
             return this;
         }
         public CallPatchBuilder ToS4(int address) {
-            destinationAddress = new nint(address + GameValues.S4_Main);
+            destinationAddress = new nint(address + S4_Main);
             return this;
         }
 
@@ -81,70 +99,52 @@ namespace Forge.Patching {
             destinationAddress = Marshal.GetFunctionPointerForDelegate(destination);
             return this;
         }
-
-        private int nops = 0;
         public CallPatchBuilder AddNops(int length) {
             nops = length;
             return this;
         }
 
-        public override GamePatch Build() {
+        public CallPatchBuilder UseJmp() {
+            method = 0xE9;
+            return this;
+        }
+
+        public override IPatch Build() {
             ValidateRequiredValues();
 
-            if (destinationAddress == null) {
-                throw new InvalidOperationException("Destination address must be set");
-            }
-
-            APIJumpPatch patch;
+            JmpPatch patch = new JmpPatch(sourceAddress.Value, destinationAddress.Value, nops, method);
             if (expectedBytes != null)
-                patch = new APIJumpPatch(sourceAddress!.Value, destinationAddress.Value, expectedBytes, nops);
-            else
-                patch = new APIJumpPatch(sourceAddress!.Value, destinationAddress.Value, nops);
+                patch.AssertExpectedBytes(expectedBytes);
 
-            return new GamePatch(patch);
+            return patch;
         }
     }
 
     public sealed class NopPatchBuilder : GamePatchBuilder<NopPatchBuilder> {
         private int? length;
+
+        [MemberNotNull(nameof(length))]
+        public override void ValidateRequiredValues() {
+            base.ValidateRequiredValues();
+
+            if (length == null) {
+                throw new InvalidOperationException("Length must be set");
+            }
+        }
+
         public NopPatchBuilder Length(int length) {
             this.length = length;
             return this;
         }
 
-        public override GamePatch Build() {
+        public override IPatch Build() {
             ValidateRequiredValues();
 
-            if (length == null) {
-                throw new InvalidOperationException("Length must be set");
-            }
-
-            APINopPatch patch;
+            NopPatch patch = new NopPatch(sourceAddress.Value, length.Value);
             if (expectedBytes != null)
-                patch = new APINopPatch(sourceAddress!.Value, expectedBytes, length.Value);
-            else
-                patch = new APINopPatch(sourceAddress!.Value, length.Value);
+                patch.AssertExpectedBytes(expectedBytes);
 
-            return new GamePatch(patch);
-        }
-    }
-
-    public readonly struct GamePatch : IDisposable {
-        private readonly IPatch handle;
-        internal GamePatch(IPatch handle) {
-            this.handle = handle;
-        }
-
-        public void Apply() {
-            handle.Apply();
-        }
-
-        public void Revert() {
-            handle.Revert();
-        }
-
-        public void Dispose() {
-            handle.Dispose();
+            return patch;
         }
     }
 }

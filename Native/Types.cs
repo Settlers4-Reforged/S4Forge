@@ -3,6 +3,13 @@ using Forge.Native.Helpers;
 
 namespace Forge.Native
 {
+    [NativeTypeName("DWORD")]
+    public enum S4Edition : uint
+    {
+        Gold = 1,
+        History = 2,
+    }
+
     public enum Team
     {
         Red = 0,
@@ -217,6 +224,23 @@ namespace Forge.Native
         SettlerHjb,
         SettlerShaman,
         SettlerSaboteur,
+    }
+
+    [NativeTypeName("BOOL")]
+    public enum EntityCause
+    {
+        Destructed = 1,
+        Constructed,
+    }
+
+    [NativeTypeName("DWORD")]
+    public enum MovementType : uint
+    {
+        Forward,
+        Patrol,
+        Accumulate,
+        Watch = 4,
+        Stop = 8,
     }
 
     public enum GoodType : byte

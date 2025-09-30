@@ -1,4 +1,5 @@
-﻿using Forge.Logging;
+﻿using Forge.Config;
+using Forge.Logging;
 
 using System;
 using System.Collections.Generic;
@@ -56,8 +57,10 @@ namespace Forge.Native {
             if (registeredWndProc) return;
             registeredWndProc = true;
 
+            IS4ModApi modApi = DI.Resolve<IS4ModApi>();
+
             unsafe {
-                ModAPI.API.AddWndProc(((_, msg, param, lParam) => {
+                modApi.AddWndProc(((_, msg, param, lParam) => {
 
 #pragma warning disable CS0618 // Type or member is obsolete
                     var winMains = WndProc?.GetInvocationList();
@@ -66,7 +69,7 @@ namespace Forge.Native {
                     if (winMains == null) return 0;
                     foreach (WndProcDelegate winMain in winMains) {
                         try {
-                            if (winMain((WndProcMsg)msg, new UIntPtr(param), new UIntPtr((uint)lParam))) {
+                            if (winMain((WndProcMsg)msg, param, lParam)) {
                                 return 1;
                             }
                         } catch (Exception e) {

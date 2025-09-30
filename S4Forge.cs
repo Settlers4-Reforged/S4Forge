@@ -1,6 +1,4 @@
-﻿using CrashHandling;
-
-using DryIoc;
+﻿using DryIoc;
 
 using Forge.Config;
 using Forge.Engine;
@@ -8,8 +6,6 @@ using Forge.Game.Core;
 using Forge.Logging;
 using Forge.Native;
 using Forge.Notifications;
-
-using NetModAPI;
 
 using System;
 using System.Collections.Generic;
@@ -29,17 +25,22 @@ namespace Forge {
     public class S4Forge : IForge {
         private CLogger Logger = LoggerManager.ForgeLogger.WithEnumCategory(ForgeLogCategory.Core);
 
+        private IDebugService DebugReporter;
+
         // TODO: .NET Counters!!
-        public void Initialize() {
-            LoggerManager.PrepareLogger();
+        public void Initialize(IS4ModApi modApi, IDebugService debugReporter, CLogger.SendLogCallback logWriter) {
+            DebugReporter = debugReporter;
+            LoggerManager.PrepareLogger(logWriter);
 
             Logger.Log(LogLevel.Info, "Initializing Forge...");
 
             AssemblyInitializations.InitAssemblyLoadHandler();
-
             AddExceptionHandling();
 
             DI.Dependencies.RegisterInstanceMany(this);
+            DI.Dependencies.RegisterInstanceMany(DebugReporter);
+            DI.Dependencies.RegisterInstance<IS4ModApi>(modApi);
+            DI.Dependencies.Register<IGameValues, GameValues>();
             DI.Dependencies.Register<ICallbacks, Callbacks>(Reuse.Singleton);
             ApiManager.RegisterDependencies();
             NotificationsService.RegisterDependencies();
@@ -74,7 +75,7 @@ namespace Forge {
         private void AppendNativeStackToExceptionHandler(object? sender, FirstChanceExceptionEventArgs e) {
             // NOTE(Jonas): This _could_ lead to a stack overflow as we maybe trip into an exception when rendering the stack trace
             // I don't quite know how to correctly detect that, so just hopes and prayers keep this code here together
-            e.Exception.Data.Add("Stack", DebugService.GetFullStacktrace(6, true));
+            e.Exception.Data.Add("Stack", DebugReporter.GetFullStacktrace(6, true));
         }
 
         private void UnhandledExceptionHandler(object s, UnhandledExceptionEventArgs e) {
@@ -91,9 +92,7 @@ namespace Forge {
             string exceptionMessage = "";
             // TODO: Add custom exception handling for plugins
             // Probably in form of a custom class in the plugin assembly that implements ICrashReporter
-
-            IDebugReporter crashReporter = DebugService.GetReporter();
-            crashReporter.ReportException(source, exceptionMessage, exception, true);
+            DebugReporter.ReportException(source, exceptionMessage, exception, true);
         }
 
     }

@@ -1,8 +1,6 @@
 ﻿using Forge.Native;
 using Forge.S4.Types;
 
-using NetModAPI;
-
 using System;
 using System.IO;
 using System.Reflection;

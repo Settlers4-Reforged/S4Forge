@@ -15,11 +15,17 @@ namespace Forge.Game.World {
 
     [GenerateAutomaticInterface]
     internal sealed class PlayerApi : IPlayerApi {
+        private readonly IS4ModApi modApi;
+
+        public PlayerApi(IS4ModApi modApi) {
+            this.modApi = modApi;
+        }
+
         /// <summary>
         /// Returns the current number of players in the active game.
         /// </summary>
         public uint GetNumberOfPlayers() {
-            return ModAPI.API.GetNumberOfPlayers();
+            return modApi.GetNumberOfPlayers();
         }
 
         /// <summary>
@@ -48,7 +54,7 @@ namespace Forge.Game.World {
         /// </summary>
         /// <returns></returns>
         public uint GetLocalPlayerId() {
-            return ModAPI.API.GetLocalPlayer();
+            return modApi.GetLocalPlayer();
         }
     }
 }

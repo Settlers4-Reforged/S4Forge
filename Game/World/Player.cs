@@ -18,6 +18,7 @@ namespace Forge.S4.Types {
     [GenerateAutomaticInterface]
     internal sealed class Player : IPlayer {
         private const int PlayerCount = 8;
+        private readonly IS4ModApi modApi = DI.Resolve<IS4ModApi>();
 
         internal static void RegisterPlayers() {
             for (uint i = 0; i < PlayerCount; i++) {
@@ -30,13 +31,13 @@ namespace Forge.S4.Types {
 
         public uint Id { get; set; }
 
-        public bool IsLocalPlayer => Id == Forge.Native.ModAPI.API.GetLocalPlayer();
+        public bool IsLocalPlayer => Id == modApi.GetLocalPlayer();
 
         // TODO: replace with direct memory access
-        public int OffensiveFightingStrength => (int)Forge.Native.ModAPI.API.GetOffenceFightingStrength(Id);
+        public int OffensiveFightingStrength => (int)modApi.GetOffenceFightingStrength(Id);
 
-        public Tribe Tribe => (Tribe)Forge.Native.ModAPI.API.GetPlayerTribe(Id);
+        public Tribe Tribe => (Tribe)modApi.GetPlayerTribe(Id);
 
-        public bool HasLost => Forge.Native.ModAPI.API.HasPlayerLost(Id) != 0;
+        public bool HasLost => modApi.HasPlayerLost(Id);
     }
 }

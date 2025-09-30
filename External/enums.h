@@ -3,6 +3,11 @@
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 
+enum class S4Edition : DWORD {
+    Gold = 1,
+    History = 2,
+};
+
 enum class Team {
     Red = 0,
     Blue,
@@ -239,6 +244,21 @@ enum class EntityRole : BYTE {
     SettlerShaman,
     SettlerSaboteur,
 };
+
+
+enum class EntityCause : BOOL {
+    Destructed = 1,
+    Constructed,
+};
+
+enum class MovementType : DWORD {
+    Forward,
+    Patrol,
+    Accumulate,
+    Watch = 4,
+    Stop = 8,
+};
+
 
 enum class GoodType : BYTE {
     None = 0,

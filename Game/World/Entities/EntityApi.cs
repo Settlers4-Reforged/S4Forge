@@ -53,24 +53,27 @@ namespace Forge.Game.World.Entities {
     internal sealed class EntityApi : IEntityApi {
         private readonly CLogger Logger;
         private readonly IMap map;
+        private readonly IGameValues gameValues;
 
-        public unsafe IEntity** BackingEntityPool => (IEntity**)GameValues.GetPointer<IEntity>(0xE9BC38);
-        public uint EntityPoolSize => GameValues.ReadValue<uint>(0xE9B0BC, @default: 0);
-        public unsafe ushort** BackingEntityMap => (ushort**)GameValues.ReadValue<int>(0x106B0FC);
+        public unsafe IEntity** BackingEntityPool { get; }
+        public unsafe Selection_t* Selection { get; }
+        public uint EntityPoolSize => gameValues.ReadValue<uint>(0xE9B0BC, @default: 0);
+        public unsafe ushort** BackingEntityMap => (ushort**)gameValues.ReadValue<int>(0x106B0FC);
 
-
-        public unsafe Selection_t* Selection => GameValues.GetPointer<Selection_t>(0x10865A4);
-
-        public EntityApi(CLogger logger, ICallbacks callbacks, IMap map) {
+        public unsafe EntityApi(CLogger logger, IGameValues gameValues, ICallbacks callbacks, IMap map) {
             this.Logger = logger.WithEnumCategory(ForgeLogCategory.Game);
             this.map = map;
+            this.gameValues = gameValues;
+
+            BackingEntityPool = (IEntity**)gameValues.GetPointer<IEntity>(0xE9BC38);
+            Selection = gameValues.GetPointer<Selection_t>(0x10865A4);
         }
 
         public unsafe EntityClass ClassOf(IEntity* entity) {
             if (entity == null) return EntityClass.Unknown;
 
             nint vtable = *(nint*)entity;
-            return (vtable - GameValues.S4_Main) switch {
+            return (vtable - gameValues.S4_Main) switch {
                 // todo: the following offsets work only for version with md5 c13883cbd796c614365ab2d670ead561
                 0xc5821c => EntityClass.Landanimal,
                 0xc585e4 => EntityClass.Building,

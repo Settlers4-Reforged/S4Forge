@@ -1,5 +1,6 @@
 ﻿using AutomaticInterface;
 
+using Forge.Config;
 using Forge.Game.Config.Native;
 using Forge.Native;
 
@@ -26,7 +27,14 @@ namespace Forge.Game.Config {
     }
 
     internal sealed unsafe class ConfigApi : IConfigApi {
-        private CConfigManager* configManager = *(CConfigManager**)GameValues.GetPointer<CConfigManager>(0x1054C8C);
+        private IGameValues gameValues;
+        private CConfigManager* configManager;
+
+        public ConfigApi(IGameValues gameValues) {
+            this.gameValues = gameValues;
+
+            configManager = *(CConfigManager**)gameValues.GetPointer<CConfigManager>(0x1054C8C);
+        }
 
         private CConfigSection*[] GetSections() {
             ConfigSectionList sectionList = configManager->sectionList;

@@ -10,27 +10,29 @@ using Forge.S4.Types;
 namespace Forge.Game.World {
     [GenerateAutomaticInterface]
     public class Map : IMap {
-        private CLogger Logger;
-        public Map(CLogger logger) {
+        private readonly IS4ModApi modApi;
+        private readonly CLogger Logger;
+        public Map(IS4ModApi modApi, CLogger logger) {
+            this.modApi = modApi;
             Logger = logger;
         }
 
-        public uint Size => ModAPI.API.MapSize();
+        public uint Size => modApi.MapSize();
 
         public uint GetTileHeightAt(int x, int y) {
-            return ModAPI.API.LandscapeGetHeight(x, y);
+            return modApi.LandscapeGetHeight(x, y);
         }
 
         public uint GetTileTypeAt(int x, int y) {
-            return (uint)ModAPI.API.LandscapeGetType(x, y);
+            return (uint)modApi.LandscapeGetType(x, y);
         }
 
         public bool IsTilePond(int x, int y) {
-            return ModAPI.API.LandscapeIsPond(x, y) == 1;
+            return modApi.LandscapeIsPond(x, y);
         }
 
         public Resource? GetTileResourceAt(int x, int y) {
-            int resourceAndLevel = (int)ModAPI.API.LandscapeGetResource(x, y);
+            int resourceAndLevel = (int)modApi.LandscapeGetResource(x, y);
 
             switch (resourceAndLevel) {
                 case 0:
@@ -70,21 +72,21 @@ namespace Forge.Game.World {
             return null;
         }
 
-        public int SetTileResourceAt(int x, int y, Resource resource) {
-            return ModAPI.API.LandscapeSetResource(x, y, resource.ToNative());
+        public bool SetTileResourceAt(int x, int y, Resource resource) {
+            return modApi.LandscapeSetResource(x, y, resource.ToNative());
         }
 
         public IPlayer GetTileOwnerAt(int x, int y) {
-            uint owner = ModAPI.API.LandscapeGetOwner(x, y);
+            uint owner = modApi.LandscapeGetOwner(x, y);
             return DI.Resolve<IPlayerApi>().GetPlayer(owner);
         }
 
         public bool IsTileOccupied(int x, int y) {
-            return ModAPI.API.LandscapeIsOccupied(x, y) != 0;
+            return modApi.LandscapeIsOccupied(x, y);
         }
 
         public bool IsTileFoundingStone(int x, int y) {
-            return ModAPI.API.LandscapeIsFoundingStone(x, y) != 0;
+            return modApi.LandscapeIsFoundingStone(x, y);
         }
 
         /// <summary>
@@ -94,7 +96,7 @@ namespace Forge.Game.World {
         /// This flag is mutually exclusive with <see cref="IsTileDarkLand"/>. If a tile is a dark land border, it is not marked as dark land.
         /// </remarks>
         public bool IsTileDarkLandBorder(int x, int y) {
-            return ModAPI.API.LandscapeIsDarkLandBorder(x, y) != 0;
+            return modApi.LandscapeIsDarkLandBorder(x, y);
         }
 
         /// <summary>
@@ -104,7 +106,7 @@ namespace Forge.Game.World {
         /// This flag is mutually exclusive with <see cref="IsTileDarkLandBorder"/>. If a tile is a dark land border, it is not marked as dark land.
         /// </remarks>
         public bool IsTileDarkLand(int x, int y) {
-            return ModAPI.API.LandscapeIsDarkLand(x, y) != 0;
+            return modApi.LandscapeIsDarkLand(x, y);
         }
 
         /// <summary>
@@ -112,11 +114,11 @@ namespace Forge.Game.World {
         /// </summary>
         /// <returns>A value between [0,1.0]</returns>
         public float GetTileFogOfWar(int x, int y) {
-            return ModAPI.API.LandscapeGetFogOfWar(x, y) / 255.0f;
+            return modApi.LandscapeGetFogOfWar(x, y) / 255.0f;
         }
 
         public IEcoSector GetEcoSectorAt(int x, int y) {
-            return new EcoSector(ModAPI.API.LandscapeGetEcoSector(x, y));
+            return new EcoSector(modApi.LandscapeGetEcoSector(x, y));
         }
     }
 

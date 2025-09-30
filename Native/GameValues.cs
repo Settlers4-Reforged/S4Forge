@@ -1,26 +1,60 @@
-﻿using Forge.Game.UI.Native;
+﻿using AutomaticInterface;
+
+using Forge.Config;
+using Forge.Game.UI.Native;
 using Forge.UX.Native;
 
 using System;
 using System.Runtime.InteropServices;
 
 namespace Forge.Native {
-    public static class GameValues {
-        static GameValues() {
+    public unsafe partial interface IGameValues {
+        /// <summary>
+        /// Main window hwnd handle
+        /// </summary>
+        nint Hwnd { get; }
+        /// <summary>
+        /// Pointer to the module base of S4_Main.exe
+        /// </summary>
+        int S4_Main { get; }
+
+        T ReadValue<T>(int address, bool relative = true, T @default = default(T)) where T : unmanaged;
+        T* GetPointer<T>(int address, bool relative = true) where T : unmanaged;
+
+        string? ReadStringFromUITable(int id);
+        nint GetStringUITableAddress(int id);
+
+        /// <summary>
+        /// Creates a copy to a UI Element from a container
+        /// </summary>
+        /// <param name="container"></param>
+        /// <param name="valueLink"></param>
+        /// <returns></returns>
+        S4UIElement? GetUIElementFromIndex(int container, int valueLink);
+        S4UIElement* GetUIElementFromIndexUnsafe(int container, int valueLink);
+        S4UIElement*[] GetAllUIElementsFromIndexUnsafe(int container);
+
+    }
+
+    public class GameValues : IGameValues {
+        private readonly IS4ModApi modApi;
+        public GameValues(IS4ModApi modApi) {
+            this.modApi = modApi;
+
             S4_Main = Kernel32.GetModuleHandleA(nint.Zero);
         }
 
-        public static nint Hwnd {
+        public nint Hwnd {
             get {
                 unsafe {
-                    return new nint(ModAPI.API.GetHwnd());
+                    return new nint(modApi.GetHwnd());
                 }
             }
         }
 
-        public static int S4_Main { get; private set; }
+        public int S4_Main { get; private set; }
 
-        public static T ReadValue<T>(int address, bool relative = true, T @default = default) where T : unmanaged {
+        public T ReadValue<T>(int address, bool relative = true, T @default = default) where T : unmanaged {
             int pointer = address + (relative ? S4_Main : 0);
 
             unsafe {
@@ -34,17 +68,17 @@ namespace Forge.Native {
             }
         }
 
-        public static unsafe T* GetPointer<T>(int address, bool relative = true) where T : unmanaged {
+        public unsafe T* GetPointer<T>(int address, bool relative = true) where T : unmanaged {
             return (T*)(address + (relative ? S4_Main : 0));
         }
 
-        public static string? ReadStringFromUITable(int id) {
+        public string? ReadStringFromUITable(int id) {
             const int uiStringTable = 0x1065218;
             int address = S4_Main + uiStringTable + id * 300;
 
             return Marshal.PtrToStringAnsi(new nint(address));
         }
-        public static nint GetStringUITableAddress(int id) {
+        public nint GetStringUITableAddress(int id) {
             const int uiStringTable = 0x1065218;
             int address = S4_Main + uiStringTable + id * 300;
 
@@ -58,14 +92,14 @@ namespace Forge.Native {
         /// <param name="container"></param>
         /// <param name="valueLink"></param>
         /// <returns></returns>
-        public static S4UIElement? GetUIElementFromIndex(int container, int valueLink) {
+        public S4UIElement? GetUIElementFromIndex(int container, int valueLink) {
             unsafe {
                 var element = GetUIElementFromIndexUnsafe(container, valueLink);
                 return element == null ? null : *element;
             }
         }
 
-        public static unsafe S4UIElement* GetUIElementFromIndexUnsafe(int container, int valueLink) {
+        public unsafe S4UIElement* GetUIElementFromIndexUnsafe(int container, int valueLink) {
             int UIMenus = ReadValue<int>(0x1064C94);
 
 
@@ -87,7 +121,7 @@ namespace Forge.Native {
             return elementArrayPointer;
         }
 
-        public static unsafe S4UIElement*[] GetAllUIElementsFromIndexUnsafe(int container) {
+        public unsafe S4UIElement*[] GetAllUIElementsFromIndexUnsafe(int container) {
             int UIMenus = ReadValue<int>(0x1064C94);
 
 

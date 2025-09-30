@@ -20,7 +20,10 @@ namespace Forge.S4.Game {
 
     [GenerateAutomaticInterface]
     internal sealed class WindowApi : IWindowApi {
-        public WindowApi() {
+        readonly IGameValues gameValues;
+        public WindowApi(IGameValues gameValues) {
+            this.gameValues = gameValues;
+
             User32.AddWndProc(EventHandler);
         }
 
@@ -33,7 +36,7 @@ namespace Forge.S4.Game {
         }
 
         public Vector2 GetScreenSize() {
-            User32.GetClientRect(GameValues.Hwnd, out User32.Rect rect);
+            User32.GetClientRect(gameValues.Hwnd, out User32.Rect rect);
 
             return new Vector2(rect.Z - rect.X, rect.W - rect.Y);
         }

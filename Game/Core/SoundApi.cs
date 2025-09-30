@@ -14,21 +14,27 @@ namespace Forge.Game.Core {
 
     [GenerateAutomaticInterface]
     internal sealed class SoundApi : ISoundApi {
+        IS4ModApi modApi;
+
+        public SoundApi(IS4ModApi modApi) {
+            this.modApi = modApi;
+        }
+
         public void PlaySound(int id) {
-            ModAPI.API.PlaySound(id);
+            modApi.PlaySound(id);
         }
 
         /// <summary>
         /// The music volume, from 0 to 100. If set to 0, music is disabled.
         /// </summary>
         public int MusicVolume {
-            get => ModAPI.API.GetMusicEnabled() == 0 ? 0 : ModAPI.API.GetMusicVolume();
+            get => modApi.GetMusicEnabled() == 0 ? 0 : modApi.GetMusicVolume();
             set {
                 if (value == 0) {
-                    ModAPI.API.ToggleMusic(false);
+                    modApi.ToggleMusic(false);
                 } else {
-                    ModAPI.API.ToggleMusic(false);
-                    ModAPI.API.SetMusicVolume(value);
+                    modApi.ToggleMusic(false);
+                    modApi.SetMusicVolume(value);
                 }
             }
         }
@@ -37,13 +43,13 @@ namespace Forge.Game.Core {
         /// The sound (effects like chirping, etc.) volume, from 0 to 100. If set to 0, sound is disabled.
         /// </summary>
         public int SoundVolume {
-            get => ModAPI.API.GetSoundEnabled() == 0 ? 0 : ModAPI.API.GetSoundVolume();
+            get => modApi.GetSoundEnabled() == 0 ? 0 : modApi.GetSoundVolume();
             set {
                 if (value == 0) {
-                    ModAPI.API.ToggleSound(false);
+                    modApi.ToggleSound(false);
                 } else {
-                    ModAPI.API.ToggleSound(false);
-                    ModAPI.API.SetSoundVolume(value);
+                    modApi.ToggleSound(false);
+                    modApi.SetSoundVolume(value);
                 }
             }
         }

@@ -10,6 +10,8 @@ namespace Forge.Game.World {
 
     [GenerateAutomaticInterface]
     internal class EcoSector(uint id) : IEcoSector {
+        private IS4ModApi modApi = DI.Resolve<IS4ModApi>();
+
         //TODO: maybe cache eco sector objects
 
         public uint Id { get; protected set; } = id;
@@ -18,12 +20,12 @@ namespace Forge.Game.World {
 
         public bool ChangeGoodDistribution(GoodType good, BuildingType building, float percent) {
             //TODO: fetch "owner" of EcoSector to set as player id
-            return ModAPI.API.ChangeGoodDistribution((S4_GOOD_ENUM)good, (S4_BUILDING_ENUM)building, (int)(percent * 100), Id, Owner.Id) != 0;
+            return modApi.ChangeGoodDistribution(good, building, (int)(percent * 100), Id, Owner.Id);
         }
 
         public bool ChangeGoodPriority(GoodType good, int priority) {
             //TODO: fetch "owner" of EcoSector to set as player id
-            return ModAPI.API.ChangeGoodPriority((S4_GOOD_ENUM)good, priority, Id, Owner.Id) != 0;
+            return modApi.ChangeGoodPriority(good, priority, Id, Owner.Id);
         }
     }
 }

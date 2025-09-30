@@ -15,13 +15,21 @@ namespace Forge.Game.Events {
 
     [GenerateAutomaticInterface]
     internal sealed class EventApi : IEventApi {
-        private unsafe void* EventManager => (void*)GameValues.ReadValue<int>(0x106B11C);
+        readonly IS4ModApi modApi;
+        readonly IGameValues gameValues;
+
+        public EventApi(IS4ModApi modApi, IGameValues gameValues) {
+            this.modApi = modApi;
+            this.gameValues = gameValues;
+        }
+
+        private unsafe void* EventManager => (void*)gameValues.ReadValue<int>(0x106B11C);
 
         public void SendEvent(EventType type, uint wparam, uint lparam, sbyte unknown) {
             unsafe {
                 CEvent newEvent;
-                void* s4event = ModAPI.API.CreateS4Event(&newEvent, (uint)type, wparam, lparam, unknown);
-                ModAPI.API.PostToMessageQueue(EventManager, s4event);
+                CEvent* s4event = modApi.CreateS4Event(&newEvent, (uint)type, wparam, lparam, unknown);
+                modApi.PostToMessageQueue(EventManager, s4event);
             }
         }
     }

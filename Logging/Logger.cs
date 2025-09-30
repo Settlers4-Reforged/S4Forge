@@ -19,11 +19,15 @@ namespace Forge.Logging {
         public readonly string Category { get; } = "Generic";
         public readonly string Assembly { get; }
 
+
+        public delegate void SendLogCallback(LogLevel level, string assembly, string category, string message);
         /// <summary>
         /// Inversion of control delegate for sending log messages.
         /// </summary>
-        internal static Action<LogLevel, string, string, string> SendLog =
+        internal static SendLogCallback SendLog =
             (level, assembly, category, message) => Console.WriteLine($"[{level}] [{assembly}] [{category}] {message}");
+
+        internal static IDebugService? DebugService;
 
         public CLogger() { }
         public CLogger(string assembly) {
@@ -107,7 +111,7 @@ namespace Forge.Logging {
 
             string stack;
             if (exception?.Data["Stack"] == null) {
-                stack = CrashHandling.DebugService.GetFullStacktrace(8, false);
+                stack = DebugService?.GetFullStacktrace(8, false) ?? "-- no stacktrace --";
             } else {
                 stack = exception.Data["Stack"]!.ToString()!;
             }

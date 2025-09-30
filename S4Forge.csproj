@@ -64,22 +64,5 @@
         <None Remove=".gitignore" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Game\Core\Native\" />
-    </ItemGroup>
-
-    <Choose>
-        <When Condition="'$(SolutionName)'=='S4ModdingFramework'">
-            <ItemGroup>
-                <ProjectReference Include="..\APIWrapper\S4ForgeBootstrapper.vcxproj" />
-            </ItemGroup>
-        </When>
-        <Otherwise>
-            <ItemGroup>
-                <PackageReference Include="S4Forge.Bootstrapper" Version="0.8.*" />
-            </ItemGroup>
-        </Otherwise>
-    </Choose>
-
     <Import Project="$(ProjectDir)ForgeBuild.props" />
 </Project>
