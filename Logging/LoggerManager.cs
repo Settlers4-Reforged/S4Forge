@@ -19,8 +19,10 @@ namespace Forge.Logging {
         /// <summary>
         /// Configures the CLogger to use the Forge Bootstrapper's logging mechanism.
         /// </summary>
-        public static void PrepareLogger(SendLogCallback sendLogDelegate) {
-            CLogger.SendLog = sendLogDelegate;
+        public static void PrepareLogger(SendLogCallback? sendLogDelegate = null) {
+            if (sendLogDelegate != null) {
+                CLogger.SendLog = sendLogDelegate;
+            }
 
             DI.Dependencies.Register(
                 Made.Of(() => new CLogger(Arg.Index<string>(0), "Test"),
