@@ -3,7 +3,6 @@
 using Forge.Config;
 using Forge.Native;
 using Forge.Native.MemoryPatcher;
-using Forge.Patching;
 
 using System;
 using System.Collections.Generic;

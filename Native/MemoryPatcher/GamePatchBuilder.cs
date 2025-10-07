@@ -1,6 +1,4 @@
 ﻿using Forge.Config;
-using Forge.Native;
-using Forge.Native.MemoryPatcher;
 
 using System;
 using System.Collections.Generic;
@@ -9,7 +7,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 
 
-namespace Forge.Patching {
+namespace Forge.Native.MemoryPatcher {
     public abstract class GamePatchBuilder<T> where T : GamePatchBuilder<T> {
         // ReSharper disable once InconsistentNaming
         static GamePatchBuilder() {
@@ -76,7 +74,7 @@ namespace Forge.Patching {
         }
     }
 
-    public sealed class CallPatchBuilder : GamePatchBuilder<CallPatchBuilder> {
+    public sealed class JmpPatchBuilder : GamePatchBuilder<JmpPatchBuilder> {
         private nint? destinationAddress;
         // Methods: 0xE8 (call), 0xE9 (jmp)
         private byte method = 0xE8;
@@ -91,25 +89,25 @@ namespace Forge.Patching {
             }
         }
 
-        public CallPatchBuilder To(int address) {
+        public JmpPatchBuilder To(int address) {
             destinationAddress = new nint(address);
             return this;
         }
-        public CallPatchBuilder ToS4(int address) {
+        public JmpPatchBuilder ToS4(int address) {
             destinationAddress = new nint(address + S4_Main);
             return this;
         }
 
-        public CallPatchBuilder ToDelegate(Delegate destination) {
+        public JmpPatchBuilder ToDelegate<T>(T destination) where T : Delegate {
             destinationAddress = Marshal.GetFunctionPointerForDelegate(destination);
             return this;
         }
-        public CallPatchBuilder AddNops(int length) {
+        public JmpPatchBuilder AddNops(int length) {
             nops = length;
             return this;
         }
 
-        public CallPatchBuilder UseJmp() {
+        public JmpPatchBuilder UseJmp() {
             method = 0xE9;
             return this;
         }
