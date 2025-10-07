@@ -1,15 +1,21 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace Forge.UX.Native {
-    public static class Kernel32 {
-        [DllImport("kernel32", CharSet = CharSet.Ansi, ExactSpelling = true, SetLastError = true)]
-        public static extern IntPtr GetProcAddress(IntPtr/*HMODULE*/ hModule, string procName);
+namespace Forge.Native {
+    public static partial class Kernel32 {
+        [LibraryImport("kernel32", SetLastError = true, StringMarshalling = StringMarshalling.Utf8)]
+        public static partial IntPtr GetProcAddress(IntPtr/*HMODULE*/ hModule, string procName);
 
-        [DllImport("kernel32", SetLastError = true, CharSet = CharSet.Ansi)]
-        public static extern IntPtr/*HMODULE*/ LoadLibrary([MarshalAs(UnmanagedType.LPStr)] string lpFileName);
+        [LibraryImport("kernel32", SetLastError = true, StringMarshalling = StringMarshalling.Utf8)]
+        public static partial IntPtr/*HMODULE*/ LoadLibrary(string lpFileName);
 
-        [DllImport("kernel32.dll")]
-        public static extern int GetModuleHandleA(IntPtr name);
+        [LibraryImport("kernel32.dll")]
+        public static partial int GetModuleHandleA(IntPtr name);
+
+        [LibraryImport("kernel32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static partial bool VirtualProtect(IntPtr lpAddress, UIntPtr dwSize, uint flNewProtect, out uint lpflOldProtect);
+
+        public const uint PAGE_EXECUTE_READWRITE = 0x40;
     }
 }

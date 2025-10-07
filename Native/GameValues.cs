@@ -2,7 +2,6 @@
 
 using Forge.Config;
 using Forge.Game.UI.Native;
-using Forge.UX.Native;
 
 using System;
 using System.Runtime.InteropServices;
@@ -17,9 +16,31 @@ namespace Forge.Native {
         /// Pointer to the module base of S4_Main.exe
         /// </summary>
         int S4_Main { get; }
-
+        /// <summary>
+        /// Reads a value of the specified type from the given memory address.
+        /// </summary>
+        /// <typeparam name="T">The type of the value to read. Must be an unmanaged type.</typeparam>
+        /// <param name="address">The memory address from which to read the value. This can be an absolute or relative address.</param>
+        /// <param name="relative">A boolean indicating whether the <paramref name="address"/> is relative. If <see langword="true"/>, the
+        /// address is treated as relative; otherwise, it is treated as absolute.  The default is <see langword="true"/>.
+        /// </param>
+        /// <param name="default">The default value to return if the address is null.</param>
+        /// <returns>The value of type <typeparamref name="T"/> read from the specified address, or the <paramref name="default"/> value if the address is null.</returns>
         T ReadValue<T>(int address, bool relative = true, T @default = default(T)) where T : unmanaged;
-        T* GetPointer<T>(int address, bool relative = true) where T : unmanaged;
+        /// <summary>
+        /// Converts the specified memory address to a pointer.
+        /// </summary>
+        /// <remarks>The caller is responsible for ensuring that the memory address is valid and that it
+        /// points to a region of memory compatible with the specified type <typeparamref name="T"/>. Using an
+        /// invalid or incompatible address may result in undefined behavior.</remarks>
+        /// <typeparam name="T">The unmanaged type to which the memory address will be cast.</typeparam>
+        /// <param name="address">The memory address to convert. This can be an absolute or relative address.</param>
+        /// <param name="relative">A value indicating whether the <paramref name="address"/> is relative to a base address. If <see langword="true"/>,
+        /// the address is treated as relative; otherwise, it is treated as absolute.</param>
+        /// <returns>A pointer of type <typeparamref name="T"/> that represents the specified memory address.</returns>
+        T* AddressAsPointer<T>(int address, bool relative = true) where T : unmanaged;
+
+        uint SetProtect(int address, uint size, uint newProtect, bool relative = true);
 
         string? ReadStringFromUITable(int id);
         nint GetStringUITableAddress(int id);
@@ -55,10 +76,8 @@ namespace Forge.Native {
         public int S4_Main { get; private set; }
 
         public T ReadValue<T>(int address, bool relative = true, T @default = default) where T : unmanaged {
-            int pointer = address + (relative ? S4_Main : 0);
-
             unsafe {
-                T* value = (T*)new nint(pointer).ToPointer();
+                T* value = AddressAsPointer<T>(address, relative);
 
                 if (value == null) {
                     return @default;
@@ -68,8 +87,12 @@ namespace Forge.Native {
             }
         }
 
-        public unsafe T* GetPointer<T>(int address, bool relative = true) where T : unmanaged {
+        public unsafe T* AddressAsPointer<T>(int address, bool relative = true) where T : unmanaged {
             return (T*)(address + (relative ? S4_Main : 0));
+        }
+
+        public uint SetProtect(int address, uint size, uint newProtect, bool relative = true) {
+            return Kernel32.VirtualProtect(address + (relative ? S4_Main : 0), size, newProtect, out uint oldProtect) ? oldProtect : 0;
         }
 
         public string? ReadStringFromUITable(int id) {

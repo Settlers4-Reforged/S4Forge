@@ -65,8 +65,8 @@ namespace Forge.Game.World.Entities {
             this.map = map;
             this.gameValues = gameValues;
 
-            BackingEntityPool = (IEntity**)gameValues.GetPointer<IEntity>(0xE9BC38);
-            Selection = gameValues.GetPointer<Selection_t>(0x10865A4);
+            BackingEntityPool = (IEntity**)gameValues.AddressAsPointer<IEntity>(0xE9BC38);
+            Selection = gameValues.AddressAsPointer<Selection_t>(0x10865A4);
         }
 
         public unsafe EntityClass ClassOf(IEntity* entity) {

@@ -33,7 +33,7 @@ namespace Forge.Game.Config {
         public ConfigApi(IGameValues gameValues) {
             this.gameValues = gameValues;
 
-            configManager = *(CConfigManager**)gameValues.GetPointer<CConfigManager>(0x1054C8C);
+            configManager = *(CConfigManager**)gameValues.AddressAsPointer<CConfigManager>(0x1054C8C);
         }
 
         private CConfigSection*[] GetSections() {
