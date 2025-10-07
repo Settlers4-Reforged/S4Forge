@@ -35,7 +35,7 @@ namespace Forge.Patching {
         }
 
         [MemberNotNull(nameof(sourceAddress))]
-        public virtual void ValidateRequiredValues() {
+        protected virtual void ValidateRequiredValues() {
             if (sourceAddress == null) {
                 throw new InvalidOperationException("Source address must be set");
             }
@@ -51,8 +51,13 @@ namespace Forge.Patching {
             return this;
         }
 
+        public PatchBuilder PatchBytes(uint patch) {
+            patchBytes = BitConverter.GetBytes(patch);
+            return this;
+        }
+
         [MemberNotNull(nameof(patchBytes))]
-        public override void ValidateRequiredValues() {
+        protected override void ValidateRequiredValues() {
             base.ValidateRequiredValues();
 
             if (patchBytes == null) {
@@ -78,7 +83,7 @@ namespace Forge.Patching {
         private int nops;
 
         [MemberNotNull(nameof(destinationAddress))]
-        public override void ValidateRequiredValues() {
+        protected override void ValidateRequiredValues() {
             base.ValidateRequiredValues();
 
             if (destinationAddress == null) {
@@ -124,7 +129,7 @@ namespace Forge.Patching {
         private int? length;
 
         [MemberNotNull(nameof(length))]
-        public override void ValidateRequiredValues() {
+        protected override void ValidateRequiredValues() {
             base.ValidateRequiredValues();
 
             if (length == null) {

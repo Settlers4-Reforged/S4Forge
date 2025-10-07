@@ -45,6 +45,8 @@ namespace Forge {
             ApiManager.RegisterDependencies();
             NotificationsService.RegisterDependencies();
 
+            LoggerManager.SetupS4LoggingRedirect(); // requires IGameValues
+
             EngineLoader.LoadAllEngines(DI.Dependencies);
 
             ApiManager.ResolveDependencies();
