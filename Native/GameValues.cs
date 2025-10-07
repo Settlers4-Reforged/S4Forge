@@ -40,6 +40,21 @@ namespace Forge.Native {
         /// <returns>A pointer of type <typeparamref name="T"/> that represents the specified memory address.</returns>
         T* AddressAsPointer<T>(int address, bool relative = true) where T : unmanaged;
 
+        /// <summary>
+        /// Changes the memory protection for a specified region of memory. Basically an abstraction over VirtualProtect
+        /// </summary>
+        /// <remarks>This method modifies the protection settings of a memory region, such as making it
+        /// read-only or executable.  The caller must ensure that the specified memory region is valid and accessible. 
+        /// Incorrect usage may result in undefined behavior or access violations.</remarks>
+        /// <param name="address">The starting address of the memory region whose protection is to be changed. If <paramref name="relative"/>
+        /// is <see langword="true"/>, this is treated as an offset relative to a base address; otherwise, it is an
+        /// absolute address.</param>
+        /// <param name="size">The size, in bytes, of the memory region to be modified. Must be greater than zero.</param>
+        /// <param name="newProtect">The new protection attributes to apply to the memory region. This value must correspond to valid memory
+        /// protection constants. See the <see cref="Kernel32"> constants</param>
+        /// <param name="relative">Indicates whether the <paramref name="address"/> parameter is relative to a base address. If <see
+        /// langword="true"/>, the address is treated as relative; otherwise, it is treated as absolute.</param>
+        /// <returns>The previous protection attributes of the memory region.</returns>
         uint SetProtect(int address, uint size, uint newProtect, bool relative = true);
 
         string? ReadStringFromUITable(int id);
