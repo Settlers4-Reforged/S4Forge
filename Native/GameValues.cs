@@ -51,7 +51,7 @@ namespace Forge.Native {
         /// absolute address.</param>
         /// <param name="size">The size, in bytes, of the memory region to be modified. Must be greater than zero.</param>
         /// <param name="newProtect">The new protection attributes to apply to the memory region. This value must correspond to valid memory
-        /// protection constants. See the <see cref="Kernel32"> constants</param>
+        /// protection constants. See the <c>Kernel32</c> constants</param>
         /// <param name="relative">Indicates whether the <paramref name="address"/> parameter is relative to a base address. If <see
         /// langword="true"/>, the address is treated as relative; otherwise, it is treated as absolute.</param>
         /// <returns>The previous protection attributes of the memory region.</returns>

@@ -15,13 +15,13 @@ namespace Forge.Native {
                 fixed (wstring* t = &this) {
                     nint pText;
 
-                    if (field_14 <= 16) {
-                        pText = (nint)(&t->text);
+                    if (capacity <= 16) {
+                        pText = (nint)(t->storage.buffer);
                     } else {
-                        pText = (nint)t->text;
+                        pText = (nint)(t->storage.text);
                     }
 
-                    return Marshal.PtrToStringAnsi(pText) ?? "unknown";
+                    return Marshal.PtrToStringUTF8(pText) ?? "unknown";
                 }
             }
         }
