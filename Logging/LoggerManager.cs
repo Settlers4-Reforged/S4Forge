@@ -44,9 +44,17 @@ namespace Forge.Logging {
             WriteToFileOrig(_this, text, length);
 
             string output = Marshal.PtrToStringAnsi((nint)text) ?? "BROKEN WRITE";
-            string trimmedOutput = output.Trim('\n', '\r');
+            ReadOnlySpan<char> span = output.AsSpan(0, (int)length);
+            ReadOnlySpan<char> trimmedOutput = span.Trim(['\n', '\r', ' ']);
+
+            if (trimmedOutput.Length > 22 && char.IsAsciiHexDigit(trimmedOutput[0])) {
+                //Log line might contain TickCount and ThreadId: "31542343  00009220    GfxManager.cpp: Disabling GfxFile 1"
+                trimmedOutput = trimmedOutput.Slice(22);
+            }
+
+
             if (trimmedOutput.Length > 0)
-                NativeLogger.Log(LogLevel.Debug, trimmedOutput);
+                NativeLogger.Log(LogLevel.Debug, trimmedOutput.ToString());
         }
 
         public static unsafe void SetupS4LoggingRedirect() {
