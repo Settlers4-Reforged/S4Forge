@@ -41,6 +41,19 @@ namespace Forge.Native {
         T* AddressAsPointer<T>(int address, bool relative = true) where T : unmanaged;
 
         /// <summary>
+        /// Follows an address to it's pointer. Usefull for if you have an address to a pointer to a struct/class
+        /// </summary>
+        /// <remarks>The caller is responsible for ensuring that the memory address is valid and that it
+        /// points to a region of memory compatible with the specified type <typeparamref name="T"/>. Using an
+        /// invalid or incompatible address may result in undefined behavior.</remarks>
+        /// <typeparam name="T">The unmanaged type to which the memory address will be cast.</typeparam>
+        /// <param name="address">The memory address to convert. This can be an absolute or relative address.</param>
+        /// <param name="relative">A value indicating whether the <paramref name="address"/> is relative to a base address. If <see langword="true"/>,
+        /// the address is treated as relative; otherwise, it is treated as absolute.</param>
+        /// <returns>A pointer of type <typeparamref name="T"/> that represents the specified memory address.</returns>
+        T* ReadReference<T>(int address, bool relative = true) where T : unmanaged;
+
+        /// <summary>
         /// Changes the memory protection for a specified region of memory. Basically an abstraction over VirtualProtect
         /// </summary>
         /// <remarks>This method modifies the protection settings of a memory region, such as making it
@@ -104,6 +117,10 @@ namespace Forge.Native {
 
         public unsafe T* AddressAsPointer<T>(int address, bool relative = true) where T : unmanaged {
             return (T*)(address + (relative ? S4_Main : 0));
+        }
+
+        public unsafe T* ReadReference<T>(int address, bool relative = true) where T : unmanaged {
+            return *(T**)(address + (relative ? S4_Main : 0));
         }
 
         public uint SetProtect(int address, uint size, uint newProtect, bool relative = true) {
