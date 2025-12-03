@@ -2,6 +2,8 @@ ClangSharpPInvokeGenerator @GenerateBase.rsp @GenerateDirectX7.rsp
 ClangSharpPInvokeGenerator @GenerateBase.rsp @GenerateDirectX9.rsp
 ClangSharpPInvokeGenerator @GenerateBase.rsp @GenerateEnums.rsp
 ClangSharpPInvokeGenerator @GenerateBase.rsp @GenerateCore.rsp
+ClangSharpPInvokeGenerator @GenerateBase.rsp @GenerateNative.rsp
 ClangSharpPInvokeGenerator @GenerateBase.rsp @GenerateEntities.rsp
 ClangSharpPInvokeGenerator @GenerateBase.rsp @GenerateUnits.rsp
 ClangSharpPInvokeGenerator @GenerateBase.rsp @GenerateConfig.rsp
+ClangSharpPInvokeGenerator @GenerateBase.rsp @GenerateWorld.rsp

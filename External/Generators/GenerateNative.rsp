@@ -1,0 +1,8 @@
+--output
+../../Native/
+--file
+../s4.h
+--file
+../Core/wstring.h
+--namespace
+Forge.Native

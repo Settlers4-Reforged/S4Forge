@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Forge.Game.UI.Native {
+namespace Forge.Game.Match.Native {
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi, Pack = 1)]
     public unsafe struct GameState {
         void* field_0;

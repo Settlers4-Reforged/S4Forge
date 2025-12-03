@@ -1,0 +1,12 @@
+--output
+../../Game/World/Native/
+--file
+../World/CEffects.h
+--file
+../World/IS4ChunkObject.h
+--file
+../World/CBBObject.h
+--file
+../World/CLogic.h
+--namespace
+Forge.Game.World.Native

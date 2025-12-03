@@ -1,8 +1,6 @@
 --output
-../../Native/
+../../Game/Core/Native
 --file
-../s4.h
---file
-../Core/wstring.h
+../Core/CSoundEngine.h
 --namespace
 Forge.Native
