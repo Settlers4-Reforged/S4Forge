@@ -34,6 +34,7 @@ namespace Forge.Native {
     public unsafe delegate HRESULT S4GuiClearCallback(IntPtr entity, BOOL discard);
     public unsafe delegate IntPtr S4WndProc(IntPtr hWnd, uint msg, UIntPtr wParam, UIntPtr lParam); // common WndProc signature
 
+    [Obsolete("Use native Forge implementation instead")]
     public unsafe interface IS4ModApi {
         /** Hooks/Observers **/
         void RemoveListener(S4HOOK hook);
@@ -57,18 +58,6 @@ namespace Forge.Native {
         byte PostToMessageQueue(void* eventEngine, CEvent* evt);
         CEvent* CreateS4Event(CEvent* evt, uint a2, uint a3, uint a4, sbyte a5);
         CEvent* CreateS4UIEvent(CEvent* evt, uint a2, uint a3, uint a4, byte a5, uint a6, short a7);
-
-        /** Sound **/
-        void PlaySound(int id);
-        int GetMusicVolume();
-        void SetMusicVolume(int volume);
-        int GetMusicEnabled();
-        void ToggleMusic(bool enabled);
-
-        int GetSoundVolume();
-        void SetSoundVolume(int volume);
-        int GetSoundEnabled();
-        void ToggleSound(bool enabled);
 
         /** ISettlers4Api methods **/
         void* GetDebugData(void* a, void* b);
