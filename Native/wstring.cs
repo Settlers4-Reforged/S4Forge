@@ -4,6 +4,7 @@ using System.Runtime.InteropServices;
 
 namespace Forge.Native
 {
+    // Struct Size: 0x18
     public partial struct wstring
     {
         [NativeInheritance(nameof(wstring))]
@@ -16,6 +17,7 @@ namespace Forge.Native
         [NativeInheritance(nameof(wstring))]
         public int capacity;
 
+        // Struct Size: 0x10
         [StructLayout(LayoutKind.Explicit)]
         public unsafe partial struct _storage_e__Union
         {

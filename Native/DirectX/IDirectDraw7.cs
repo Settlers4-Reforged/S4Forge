@@ -5,6 +5,7 @@ using System.Runtime.CompilerServices;
 
 namespace Forge.Native.DirectX
 {
+    // Struct Size: 0x4
     public unsafe partial struct IDirectDraw7 : IDirectDraw7.Interface
     {
         public void** lpVtbl;

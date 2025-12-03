@@ -6,6 +6,7 @@ using System.Runtime.CompilerServices;
 
 namespace Forge.Native.DirectX
 {
+    // Struct Size: 0x4
     public unsafe partial struct IDirect3DDevice9 : IDirect3DDevice9.Interface
     {
         public void** lpVtbl;
