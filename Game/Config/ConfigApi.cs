@@ -1,16 +1,8 @@
-﻿using AutomaticInterface;
-
-using Forge.Config;
-using Forge.Game.Config.Native;
+﻿using Forge.Game.Config.Native;
 using Forge.Native;
 
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
 
 namespace Forge.Game.Config {
     public interface IConfigApi {
@@ -19,11 +11,16 @@ namespace Forge.Game.Config {
 
         CConfigVar.VarType GetSettingType(string section, string setting);
         int GetSettingInt(string section, string setting, int defaultValue);
+        bool GetSettingBool(string section, string setting, bool defaultValue) {
+            int intDefault = defaultValue ? 1 : 0;
+            int intValue = GetSettingInt(section, setting, intDefault);
+            return intValue != 0;
+        }
         float GetSettingFloat(string section, string setting, float defaultValue);
         string GetSettingString(string section, string setting, string defaultValue);
         int[] GetSettingIntArray(string section, string setting, int[] defaultValue);
 
-        nint GetConfigByName(string sectionName, string configName);
+        unsafe Var* GetConfigByName<Var>(string sectionName, string configName) where Var : unmanaged, CConfigVar.Interface;
     }
 
     internal sealed unsafe class ConfigApi : IConfigApi {
@@ -33,7 +30,7 @@ namespace Forge.Game.Config {
         public ConfigApi(IGameValues gameValues) {
             this.gameValues = gameValues;
 
-            configManager = *(CConfigManager**)gameValues.AddressAsPointer<CConfigManager>(0x1054C8C);
+            configManager = gameValues.ReadReference<CConfigManager>(0x1054C8C);
         }
 
         private CConfigSection*[] GetSections() {
@@ -146,41 +143,14 @@ namespace Forge.Game.Config {
             return values;
         }
 
-        public unsafe nint GetConfigByName(string sectionName, string configName) {
-            CConfigSection* section = GetSectionByName(sectionName);
-            if (section == null)
-                return nint.Zero;
+        public unsafe Var* GetConfigByName<Var>(string sectionName, string configName) where Var : unmanaged, CConfigVar.Interface {
+            nint pSection = Marshal.StringToHGlobalAnsi(sectionName);
+            nint pSetting = Marshal.StringToHGlobalAnsi(configName);
+            CConfigVar* config = configManager->GetConfigVar((sbyte*)pSection, (sbyte*)pSetting);
+            Marshal.FreeHGlobal(pSection);
+            Marshal.FreeHGlobal(pSetting);
 
-            ConfigVarMap* configMap = &section->configVarMap;
-            if (configMap == null)
-                return nint.Zero;
-
-            CConfigVarMapNode* result, root, index;
-
-            result = configMap->root;
-            root = configMap->root;
-            index = configMap->root->left;
-            while (index->isUnpopulatedNode == 0) {
-                string p_key = index->key.Text;
-                string text = configName;
-                int comparison = string.CompareOrdinal(p_key, text);
-                if (comparison != 0) {
-                    if (comparison < 0) {
-                        index = index->right;
-                        result = root;
-                        continue;
-                    }
-                } else if (index->key.Text.Length < configName.Length) {
-                    index = index->right;
-                    result = root;
-                    continue;
-                }
-                result = index;
-                index = index->parent;
-                root = result;
-            }
-
-            return new nint(result);
+            return (Var*)config;
         }
 
         private CConfigVarMapNode*[] GetConfigsInSection(string sectionName) {

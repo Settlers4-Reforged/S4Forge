@@ -3,6 +3,7 @@ using Forge.Native.Helpers;
 
 namespace Forge.Game.Config.Native
 {
+    // Struct Size: 0xC
     public unsafe partial struct CConfigSectionListNode
     {
         [NativeInheritance(nameof(CConfigSectionListNode))]

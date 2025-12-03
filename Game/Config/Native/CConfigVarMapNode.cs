@@ -3,6 +3,7 @@ using Forge.Native.Helpers;
 
 namespace Forge.Game.Config.Native
 {
+    // Struct Size: 0x2C
     public unsafe partial struct CConfigVarMapNode
     {
         [NativeInheritance(nameof(CConfigVarMapNode))]

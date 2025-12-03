@@ -4,6 +4,7 @@ using System.Runtime.CompilerServices;
 
 namespace Forge.Game.Config.Native
 {
+    // Struct Size: 0x8
     public unsafe partial struct CConfigVar : CConfigVar.Interface
     {
         public void** lpVtbl;
@@ -26,140 +27,138 @@ namespace Forge.Game.Config.Native
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [VtblIndex(0)]
-        public int GetValue()
+        public int GetInt()
         {
             return ((delegate* unmanaged[Thiscall]<CConfigVar*, int>)(lpVtbl[0]))((CConfigVar*)Unsafe.AsPointer(ref this));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [VtblIndex(1)]
-        public double GetValueAsDouble()
+        public double GetDouble()
         {
             return ((delegate* unmanaged[Thiscall]<CConfigVar*, double>)(lpVtbl[1]))((CConfigVar*)Unsafe.AsPointer(ref this));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [VtblIndex(2)]
-        [return: NativeTypeName("DWORD")]
-        public uint ResetString(wstring* name)
+        public wstring* GetString(wstring* @out)
         {
-            return ((delegate* unmanaged[Thiscall]<CConfigVar*, wstring*, uint>)(lpVtbl[2]))((CConfigVar*)Unsafe.AsPointer(ref this), name);
+            return ((delegate* unmanaged[Thiscall]<CConfigVar*, wstring*, wstring*>)(lpVtbl[2]))((CConfigVar*)Unsafe.AsPointer(ref this), @out);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [VtblIndex(3)]
-        public int* GetArray()
+        public int* GetList()
         {
             return ((delegate* unmanaged[Thiscall]<CConfigVar*, int*>)(lpVtbl[3]))((CConfigVar*)Unsafe.AsPointer(ref this));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [VtblIndex(4)]
-        public int* GetList()
+        public int* GetArray()
         {
             return ((delegate* unmanaged[Thiscall]<CConfigVar*, int*>)(lpVtbl[4]))((CConfigVar*)Unsafe.AsPointer(ref this));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [VtblIndex(5)]
-        public void nullsub_508(int a1)
+        public wstring* SetWStringValue(wstring* value)
         {
-            ((delegate* unmanaged[Thiscall]<CConfigVar*, int, void>)(lpVtbl[5]))((CConfigVar*)Unsafe.AsPointer(ref this), a1);
+            return ((delegate* unmanaged[Thiscall]<CConfigVar*, wstring*, wstring*>)(lpVtbl[5]))((CConfigVar*)Unsafe.AsPointer(ref this), value);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [VtblIndex(6)]
-        public void nullsub_509(int a1)
+        public wstring* SetCStringValue([NativeTypeName("const char *")] sbyte* value)
         {
-            ((delegate* unmanaged[Thiscall]<CConfigVar*, int, void>)(lpVtbl[6]))((CConfigVar*)Unsafe.AsPointer(ref this), a1);
+            return ((delegate* unmanaged[Thiscall]<CConfigVar*, sbyte*, wstring*>)(lpVtbl[6]))((CConfigVar*)Unsafe.AsPointer(ref this), value);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [VtblIndex(7)]
-        public void SetValueFromFloat(float value)
+        public int SetDoubleValue(float value)
         {
-            ((delegate* unmanaged[Thiscall]<CConfigVar*, float, void>)(lpVtbl[7]))((CConfigVar*)Unsafe.AsPointer(ref this), value);
+            return ((delegate* unmanaged[Thiscall]<CConfigVar*, float, int>)(lpVtbl[7]))((CConfigVar*)Unsafe.AsPointer(ref this), value);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [VtblIndex(8)]
-        public void SetValueFromInt(int a1)
+        public int SetIntValue(int value)
         {
-            ((delegate* unmanaged[Thiscall]<CConfigVar*, int, void>)(lpVtbl[8]))((CConfigVar*)Unsafe.AsPointer(ref this), a1);
+            return ((delegate* unmanaged[Thiscall]<CConfigVar*, int, int>)(lpVtbl[8]))((CConfigVar*)Unsafe.AsPointer(ref this), value);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [VtblIndex(9)]
         [return: NativeTypeName("DWORD *")]
-        public uint* DestroyConfigVar([NativeTypeName("char")] sbyte a2)
+        public uint* DestroyConfigVar([NativeTypeName("char")] sbyte deleteMemory)
         {
-            return ((delegate* unmanaged[Thiscall]<CConfigVar*, sbyte, uint*>)(lpVtbl[9]))((CConfigVar*)Unsafe.AsPointer(ref this), a2);
+            return ((delegate* unmanaged[Thiscall]<CConfigVar*, sbyte, uint*>)(lpVtbl[9]))((CConfigVar*)Unsafe.AsPointer(ref this), deleteMemory);
         }
 
         public interface Interface
         {
             [VtblIndex(0)]
-            int GetValue();
+            int GetInt();
 
             [VtblIndex(1)]
-            double GetValueAsDouble();
+            double GetDouble();
 
             [VtblIndex(2)]
-            [return: NativeTypeName("DWORD")]
-            uint ResetString(wstring* name);
+            wstring* GetString(wstring* @out);
 
             [VtblIndex(3)]
-            int* GetArray();
-
-            [VtblIndex(4)]
             int* GetList();
 
+            [VtblIndex(4)]
+            int* GetArray();
+
             [VtblIndex(5)]
-            void nullsub_508(int a1);
+            wstring* SetWStringValue(wstring* value);
 
             [VtblIndex(6)]
-            void nullsub_509(int a1);
+            wstring* SetCStringValue([NativeTypeName("const char *")] sbyte* value);
 
             [VtblIndex(7)]
-            void SetValueFromFloat(float value);
+            int SetDoubleValue(float value);
 
             [VtblIndex(8)]
-            void SetValueFromInt(int a1);
+            int SetIntValue(int value);
 
             [VtblIndex(9)]
             [return: NativeTypeName("DWORD *")]
-            uint* DestroyConfigVar([NativeTypeName("char")] sbyte a2);
+            uint* DestroyConfigVar([NativeTypeName("char")] sbyte deleteMemory);
         }
 
         public partial struct Vtbl<TSelf>
             where TSelf : unmanaged, Interface
         {
             [NativeTypeName("int () __attribute__((thiscall))")]
-            public delegate* unmanaged[Thiscall]<TSelf*, int> GetValue;
+            public delegate* unmanaged[Thiscall]<TSelf*, int> GetInt;
 
             [NativeTypeName("double () __attribute__((thiscall))")]
-            public delegate* unmanaged[Thiscall]<TSelf*, double> GetValueAsDouble;
+            public delegate* unmanaged[Thiscall]<TSelf*, double> GetDouble;
 
-            [NativeTypeName("DWORD (wstring *) __attribute__((thiscall))")]
-            public delegate* unmanaged[Thiscall]<TSelf*, wstring*, uint> ResetString;
-
-            [NativeTypeName("int *() __attribute__((thiscall))")]
-            public delegate* unmanaged[Thiscall]<TSelf*, int*> GetArray;
+            [NativeTypeName("wstring *(wstring *) __attribute__((thiscall))")]
+            public delegate* unmanaged[Thiscall]<TSelf*, wstring*, wstring*> GetString;
 
             [NativeTypeName("int *() __attribute__((thiscall))")]
             public delegate* unmanaged[Thiscall]<TSelf*, int*> GetList;
 
-            [NativeTypeName("void (int) __attribute__((thiscall))")]
-            public delegate* unmanaged[Thiscall]<TSelf*, int, void> nullsub_508;
+            [NativeTypeName("int *() __attribute__((thiscall))")]
+            public delegate* unmanaged[Thiscall]<TSelf*, int*> GetArray;
 
-            [NativeTypeName("void (int) __attribute__((thiscall))")]
-            public delegate* unmanaged[Thiscall]<TSelf*, int, void> nullsub_509;
+            [NativeTypeName("wstring *(wstring *) __attribute__((thiscall))")]
+            public delegate* unmanaged[Thiscall]<TSelf*, wstring*, wstring*> SetWStringValue;
 
-            [NativeTypeName("void (float) __attribute__((thiscall))")]
-            public delegate* unmanaged[Thiscall]<TSelf*, float, void> SetValueFromFloat;
+            [NativeTypeName("wstring *(const char *) __attribute__((thiscall))")]
+            public delegate* unmanaged[Thiscall]<TSelf*, sbyte*, wstring*> SetCStringValue;
 
-            [NativeTypeName("void (int) __attribute__((thiscall))")]
-            public delegate* unmanaged[Thiscall]<TSelf*, int, void> SetValueFromInt;
+            [NativeTypeName("int (float) __attribute__((thiscall))")]
+            public delegate* unmanaged[Thiscall]<TSelf*, float, int> SetDoubleValue;
+
+            [NativeTypeName("int (int) __attribute__((thiscall))")]
+            public delegate* unmanaged[Thiscall]<TSelf*, int, int> SetIntValue;
 
             [NativeTypeName("DWORD *(char) __attribute__((thiscall))")]
             public delegate* unmanaged[Thiscall]<TSelf*, sbyte, uint*> DestroyConfigVar;

@@ -12,16 +12,16 @@ struct CConfigVar {
     char itemCount;
     char field_7;
 
-    virtual int GetValue();
-    virtual double GetValueAsDouble();
-    virtual DWORD ResetString(wstring* name);
-    virtual int *GetArray();
-    virtual int *GetList();
-    virtual void nullsub_508(int a1);
-    virtual void nullsub_509(int a1);
-    virtual void SetValueFromFloat(float value);
-    virtual void SetValueFromInt(int a1);
-    virtual DWORD* DestroyConfigVar(char a2);
+    virtual int GetInt();    ///< -> 0002D5F0, args: 0x0
+    virtual double GetDouble(); ///< -> 0002D600, args: 0x0
+    virtual wstring* GetString(wstring* out); ///< -> 0002E320, args: 0x4
+    virtual int* GetList();  ///< -> 0002E360, args: 0x0
+    virtual int* GetArray();  ///< -> 0002E370, args: 0x0
+    virtual wstring* SetWStringValue(wstring* value); ///< -> 0002E380, args: 0x4
+    virtual wstring* SetCStringValue(const char* value); ///< -> 0002E390, args: 0x4
+    virtual int SetDoubleValue(float value); ///< -> 0002D610, args: 0x4
+    virtual int SetIntValue(int value); ///< -> 0002D620, args: 0x4
+    virtual DWORD* DestroyConfigVar(char deleteMemory); ///< -> 0002D630, args: 0x4
 };
 
 struct CDynamicConfigVar : public CConfigVar {

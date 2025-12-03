@@ -3,6 +3,7 @@ using Forge.Native.Helpers;
 
 namespace Forge.Game.Config.Native
 {
+    // Struct Size: 0x20
     public partial struct CConfigSection
     {
         [NativeInheritance(nameof(CConfigSection))]

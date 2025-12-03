@@ -4,6 +4,7 @@ using System.Runtime.CompilerServices;
 
 namespace Forge.Game.Config.Native
 {
+    // Struct Size: 0x14
     public unsafe partial struct CConfigManager : CConfigManager.Interface
     {
         public void** lpVtbl;
