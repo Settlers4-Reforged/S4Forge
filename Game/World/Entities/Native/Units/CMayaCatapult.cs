@@ -4,11 +4,12 @@ using System.Runtime.CompilerServices;
 
 namespace Forge.Game.World.Entities.Native.Units
 {
+    // Struct Size: 0x28
     [NativeTypeName("struct CMayaCatapult : CCatapult")]
     [NativeInheritance(nameof(CCatapult))]
     public unsafe partial struct CMayaCatapult : CMayaCatapult.Interface
     {
-        public void** lpVtbl_Base1;
+        public void** lpVtbl_BaseCPersistance;
 
         [NativeInheritance(nameof(IEntity))]
         [NativeTypeName("DWORD")]
@@ -71,7 +72,7 @@ namespace Forge.Game.World.Entities.Native.Units
         public ushort unk_1e;
 
         [NativeInheritance(nameof(IEntity))]
-        [NativeTypeName("__AnonymousRecord_entities_L112_C17")]
+        [NativeTypeName("__AnonymousRecord_entities_L113_C17")]
         public IEntity._Anonymous_e__Struct Anonymous;
 
         [NativeInheritance(nameof(IEntity))]
@@ -296,7 +297,7 @@ namespace Forge.Game.World.Entities.Native.Units
         [NativeTypeName("DWORD")]
         public uint unk_9c;
 
-        public void** lpVtbl_Base2;
+        public void** lpVtbl_BaseCWarriorBehaviour;
 
         [NativeInheritance(nameof(CCatapult))]
         [NativeTypeName("DWORD[6]")]
@@ -323,21 +324,21 @@ namespace Forge.Game.World.Entities.Native.Units
         [return: NativeTypeName("LPVOID")]
         public void* vfunc0()
         {
-            return ((delegate* unmanaged[Thiscall]<CMayaCatapult*, void*>)(lpVtbl_Base1[0]))((CMayaCatapult*)Unsafe.AsPointer(ref this));
+            return ((delegate* unmanaged[Thiscall]<CMayaCatapult*, void*>)(lpVtbl_BaseCPersistance[0]))((CMayaCatapult*)Unsafe.AsPointer(ref this));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [VtblIndex(1)]
         public void serialize([NativeTypeName("DWORD *")] uint* param0)
         {
-            ((delegate* unmanaged[Thiscall]<CMayaCatapult*, uint*, void>)(lpVtbl_Base1[1]))((CMayaCatapult*)Unsafe.AsPointer(ref this), param0);
+            ((delegate* unmanaged[Thiscall]<CMayaCatapult*, uint*, void>)(lpVtbl_BaseCPersistance[1]))((CMayaCatapult*)Unsafe.AsPointer(ref this), param0);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [VtblIndex(2)]
         public IEntity* vfunc2([NativeTypeName("LPVOID")] void* param0)
         {
-            return ((delegate* unmanaged[Thiscall]<CMayaCatapult*, void*, IEntity*>)(lpVtbl_Base1[2]))((CMayaCatapult*)Unsafe.AsPointer(ref this), param0);
+            return ((delegate* unmanaged[Thiscall]<CMayaCatapult*, void*, IEntity*>)(lpVtbl_BaseCPersistance[2]))((CMayaCatapult*)Unsafe.AsPointer(ref this), param0);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -345,14 +346,14 @@ namespace Forge.Game.World.Entities.Native.Units
         [return: NativeTypeName("DWORD")]
         public uint vfunc3()
         {
-            return ((delegate* unmanaged[Thiscall]<CMayaCatapult*, uint>)(lpVtbl_Base1[3]))((CMayaCatapult*)Unsafe.AsPointer(ref this));
+            return ((delegate* unmanaged[Thiscall]<CMayaCatapult*, uint>)(lpVtbl_BaseCPersistance[3]))((CMayaCatapult*)Unsafe.AsPointer(ref this));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [VtblIndex(4)]
         public void vfunc4()
         {
-            ((delegate* unmanaged[Thiscall]<CMayaCatapult*, void>)(lpVtbl_Base1[4]))((CMayaCatapult*)Unsafe.AsPointer(ref this));
+            ((delegate* unmanaged[Thiscall]<CMayaCatapult*, void>)(lpVtbl_BaseCPersistance[4]))((CMayaCatapult*)Unsafe.AsPointer(ref this));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -360,7 +361,7 @@ namespace Forge.Game.World.Entities.Native.Units
         [return: NativeTypeName("LPVOID")]
         public void* PopulateRenderData()
         {
-            return ((delegate* unmanaged[Thiscall]<CMayaCatapult*, void*>)(lpVtbl_Base1[5]))((CMayaCatapult*)Unsafe.AsPointer(ref this));
+            return ((delegate* unmanaged[Thiscall]<CMayaCatapult*, void*>)(lpVtbl_BaseCPersistance[5]))((CMayaCatapult*)Unsafe.AsPointer(ref this));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -368,28 +369,28 @@ namespace Forge.Game.World.Entities.Native.Units
         [return: NativeTypeName("DWORD")]
         public uint Heal([NativeTypeName("DWORD")] uint health)
         {
-            return ((delegate* unmanaged[Thiscall]<CMayaCatapult*, uint, uint>)(lpVtbl_Base1[6]))((CMayaCatapult*)Unsafe.AsPointer(ref this), health);
+            return ((delegate* unmanaged[Thiscall]<CMayaCatapult*, uint, uint>)(lpVtbl_BaseCPersistance[6]))((CMayaCatapult*)Unsafe.AsPointer(ref this), health);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [VtblIndex(7)]
         public void DamageBy([NativeTypeName("DWORD")] uint damage, [NativeTypeName("DWORD")] uint attackingEntityId)
         {
-            ((delegate* unmanaged[Thiscall]<CMayaCatapult*, uint, uint, void>)(lpVtbl_Base1[7]))((CMayaCatapult*)Unsafe.AsPointer(ref this), damage, attackingEntityId);
+            ((delegate* unmanaged[Thiscall]<CMayaCatapult*, uint, uint, void>)(lpVtbl_BaseCPersistance[7]))((CMayaCatapult*)Unsafe.AsPointer(ref this), damage, attackingEntityId);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [VtblIndex(8)]
         public void Damage([NativeTypeName("DWORD")] uint damage)
         {
-            ((delegate* unmanaged[Thiscall]<CMayaCatapult*, uint, void>)(lpVtbl_Base1[8]))((CMayaCatapult*)Unsafe.AsPointer(ref this), damage);
+            ((delegate* unmanaged[Thiscall]<CMayaCatapult*, uint, void>)(lpVtbl_BaseCPersistance[8]))((CMayaCatapult*)Unsafe.AsPointer(ref this), damage);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [VtblIndex(9)]
         public void vfunc9()
         {
-            ((delegate* unmanaged[Thiscall]<CMayaCatapult*, void>)(lpVtbl_Base1[9]))((CMayaCatapult*)Unsafe.AsPointer(ref this));
+            ((delegate* unmanaged[Thiscall]<CMayaCatapult*, void>)(lpVtbl_BaseCPersistance[9]))((CMayaCatapult*)Unsafe.AsPointer(ref this));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -397,7 +398,7 @@ namespace Forge.Game.World.Entities.Native.Units
         [return: NativeTypeName("DWORD")]
         public uint GetHealth()
         {
-            return ((delegate* unmanaged[Thiscall]<CMayaCatapult*, uint>)(lpVtbl_Base1[10]))((CMayaCatapult*)Unsafe.AsPointer(ref this));
+            return ((delegate* unmanaged[Thiscall]<CMayaCatapult*, uint>)(lpVtbl_BaseCPersistance[10]))((CMayaCatapult*)Unsafe.AsPointer(ref this));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -405,28 +406,28 @@ namespace Forge.Game.World.Entities.Native.Units
         [return: NativeTypeName("DWORD")]
         public uint vfunc11()
         {
-            return ((delegate* unmanaged[Thiscall]<CMayaCatapult*, uint>)(lpVtbl_Base1[11]))((CMayaCatapult*)Unsafe.AsPointer(ref this));
+            return ((delegate* unmanaged[Thiscall]<CMayaCatapult*, uint>)(lpVtbl_BaseCPersistance[11]))((CMayaCatapult*)Unsafe.AsPointer(ref this));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [VtblIndex(12)]
         public void vfunc12()
         {
-            ((delegate* unmanaged[Thiscall]<CMayaCatapult*, void>)(lpVtbl_Base1[12]))((CMayaCatapult*)Unsafe.AsPointer(ref this));
+            ((delegate* unmanaged[Thiscall]<CMayaCatapult*, void>)(lpVtbl_BaseCPersistance[12]))((CMayaCatapult*)Unsafe.AsPointer(ref this));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [VtblIndex(13)]
         public void vfunc13(int param0)
         {
-            ((delegate* unmanaged[Thiscall]<CMayaCatapult*, int, void>)(lpVtbl_Base1[13]))((CMayaCatapult*)Unsafe.AsPointer(ref this), param0);
+            ((delegate* unmanaged[Thiscall]<CMayaCatapult*, int, void>)(lpVtbl_BaseCPersistance[13]))((CMayaCatapult*)Unsafe.AsPointer(ref this), param0);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [VtblIndex(14)]
         public void vfunc14()
         {
-            ((delegate* unmanaged[Thiscall]<CMayaCatapult*, void>)(lpVtbl_Base1[14]))((CMayaCatapult*)Unsafe.AsPointer(ref this));
+            ((delegate* unmanaged[Thiscall]<CMayaCatapult*, void>)(lpVtbl_BaseCPersistance[14]))((CMayaCatapult*)Unsafe.AsPointer(ref this));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -434,7 +435,7 @@ namespace Forge.Game.World.Entities.Native.Units
         [return: NativeTypeName("DWORD")]
         public uint vfunc15()
         {
-            return ((delegate* unmanaged[Thiscall]<CMayaCatapult*, uint>)(lpVtbl_Base1[15]))((CMayaCatapult*)Unsafe.AsPointer(ref this));
+            return ((delegate* unmanaged[Thiscall]<CMayaCatapult*, uint>)(lpVtbl_BaseCPersistance[15]))((CMayaCatapult*)Unsafe.AsPointer(ref this));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -442,14 +443,14 @@ namespace Forge.Game.World.Entities.Native.Units
         [return: NativeTypeName("DWORD")]
         public uint vfunc16()
         {
-            return ((delegate* unmanaged[Thiscall]<CMayaCatapult*, uint>)(lpVtbl_Base1[16]))((CMayaCatapult*)Unsafe.AsPointer(ref this));
+            return ((delegate* unmanaged[Thiscall]<CMayaCatapult*, uint>)(lpVtbl_BaseCPersistance[16]))((CMayaCatapult*)Unsafe.AsPointer(ref this));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [VtblIndex(17)]
         public void vfunc17(int param0, int param1)
         {
-            ((delegate* unmanaged[Thiscall]<CMayaCatapult*, int, int, void>)(lpVtbl_Base1[17]))((CMayaCatapult*)Unsafe.AsPointer(ref this), param0, param1);
+            ((delegate* unmanaged[Thiscall]<CMayaCatapult*, int, int, void>)(lpVtbl_BaseCPersistance[17]))((CMayaCatapult*)Unsafe.AsPointer(ref this), param0, param1);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -457,21 +458,21 @@ namespace Forge.Game.World.Entities.Native.Units
         [return: NativeTypeName("DWORD")]
         public uint vfunc18(int param0)
         {
-            return ((delegate* unmanaged[Thiscall]<CMayaCatapult*, int, uint>)(lpVtbl_Base1[18]))((CMayaCatapult*)Unsafe.AsPointer(ref this), param0);
+            return ((delegate* unmanaged[Thiscall]<CMayaCatapult*, int, uint>)(lpVtbl_BaseCPersistance[18]))((CMayaCatapult*)Unsafe.AsPointer(ref this), param0);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [VtblIndex(19)]
         public void vfunc19()
         {
-            ((delegate* unmanaged[Thiscall]<CMayaCatapult*, void>)(lpVtbl_Base1[19]))((CMayaCatapult*)Unsafe.AsPointer(ref this));
+            ((delegate* unmanaged[Thiscall]<CMayaCatapult*, void>)(lpVtbl_BaseCPersistance[19]))((CMayaCatapult*)Unsafe.AsPointer(ref this));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [VtblIndex(20)]
         public void vfunc20([NativeTypeName("DWORD")] uint param0)
         {
-            ((delegate* unmanaged[Thiscall]<CMayaCatapult*, uint, void>)(lpVtbl_Base1[20]))((CMayaCatapult*)Unsafe.AsPointer(ref this), param0);
+            ((delegate* unmanaged[Thiscall]<CMayaCatapult*, uint, void>)(lpVtbl_BaseCPersistance[20]))((CMayaCatapult*)Unsafe.AsPointer(ref this), param0);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -479,7 +480,7 @@ namespace Forge.Game.World.Entities.Native.Units
         [return: NativeTypeName("DWORD")]
         public uint vfunc21()
         {
-            return ((delegate* unmanaged[Thiscall]<CMayaCatapult*, uint>)(lpVtbl_Base1[21]))((CMayaCatapult*)Unsafe.AsPointer(ref this));
+            return ((delegate* unmanaged[Thiscall]<CMayaCatapult*, uint>)(lpVtbl_BaseCPersistance[21]))((CMayaCatapult*)Unsafe.AsPointer(ref this));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -487,7 +488,7 @@ namespace Forge.Game.World.Entities.Native.Units
         [return: NativeTypeName("DWORD")]
         public uint vfunc22()
         {
-            return ((delegate* unmanaged[Thiscall]<CMayaCatapult*, uint>)(lpVtbl_Base1[22]))((CMayaCatapult*)Unsafe.AsPointer(ref this));
+            return ((delegate* unmanaged[Thiscall]<CMayaCatapult*, uint>)(lpVtbl_BaseCPersistance[22]))((CMayaCatapult*)Unsafe.AsPointer(ref this));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -495,7 +496,7 @@ namespace Forge.Game.World.Entities.Native.Units
         [return: NativeTypeName("DWORD")]
         public uint vfunc23()
         {
-            return ((delegate* unmanaged[Thiscall]<CMayaCatapult*, uint>)(lpVtbl_Base1[23]))((CMayaCatapult*)Unsafe.AsPointer(ref this));
+            return ((delegate* unmanaged[Thiscall]<CMayaCatapult*, uint>)(lpVtbl_BaseCPersistance[23]))((CMayaCatapult*)Unsafe.AsPointer(ref this));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -503,77 +504,77 @@ namespace Forge.Game.World.Entities.Native.Units
         [return: NativeTypeName("DWORD")]
         public uint vfunc24()
         {
-            return ((delegate* unmanaged[Thiscall]<CMayaCatapult*, uint>)(lpVtbl_Base1[24]))((CMayaCatapult*)Unsafe.AsPointer(ref this));
+            return ((delegate* unmanaged[Thiscall]<CMayaCatapult*, uint>)(lpVtbl_BaseCPersistance[24]))((CMayaCatapult*)Unsafe.AsPointer(ref this));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [VtblIndex(25)]
         public void vfunc25()
         {
-            ((delegate* unmanaged[Thiscall]<CMayaCatapult*, void>)(lpVtbl_Base1[25]))((CMayaCatapult*)Unsafe.AsPointer(ref this));
+            ((delegate* unmanaged[Thiscall]<CMayaCatapult*, void>)(lpVtbl_BaseCPersistance[25]))((CMayaCatapult*)Unsafe.AsPointer(ref this));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [VtblIndex(26)]
         public void vfunc26()
         {
-            ((delegate* unmanaged[Thiscall]<CMayaCatapult*, void>)(lpVtbl_Base1[26]))((CMayaCatapult*)Unsafe.AsPointer(ref this));
+            ((delegate* unmanaged[Thiscall]<CMayaCatapult*, void>)(lpVtbl_BaseCPersistance[26]))((CMayaCatapult*)Unsafe.AsPointer(ref this));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [VtblIndex(27)]
         public void vfunc27([NativeTypeName("DWORD")] uint param0)
         {
-            ((delegate* unmanaged[Thiscall]<CMayaCatapult*, uint, void>)(lpVtbl_Base1[27]))((CMayaCatapult*)Unsafe.AsPointer(ref this), param0);
+            ((delegate* unmanaged[Thiscall]<CMayaCatapult*, uint, void>)(lpVtbl_BaseCPersistance[27]))((CMayaCatapult*)Unsafe.AsPointer(ref this), param0);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [VtblIndex(28)]
         public void vfunc28([NativeTypeName("LPVOID")] void* param0, [NativeTypeName("WORD")] ushort param1)
         {
-            ((delegate* unmanaged[Thiscall]<CMayaCatapult*, void*, ushort, void>)(lpVtbl_Base1[28]))((CMayaCatapult*)Unsafe.AsPointer(ref this), param0, param1);
+            ((delegate* unmanaged[Thiscall]<CMayaCatapult*, void*, ushort, void>)(lpVtbl_BaseCPersistance[28]))((CMayaCatapult*)Unsafe.AsPointer(ref this), param0, param1);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [VtblIndex(29)]
         public byte vfunc29()
         {
-            return ((delegate* unmanaged[Thiscall]<CMayaCatapult*, byte>)(lpVtbl_Base1[29]))((CMayaCatapult*)Unsafe.AsPointer(ref this));
+            return ((delegate* unmanaged[Thiscall]<CMayaCatapult*, byte>)(lpVtbl_BaseCPersistance[29]))((CMayaCatapult*)Unsafe.AsPointer(ref this));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [VtblIndex(30)]
         public void vfunc30()
         {
-            ((delegate* unmanaged[Thiscall]<CMayaCatapult*, void>)(lpVtbl_Base1[30]))((CMayaCatapult*)Unsafe.AsPointer(ref this));
+            ((delegate* unmanaged[Thiscall]<CMayaCatapult*, void>)(lpVtbl_BaseCPersistance[30]))((CMayaCatapult*)Unsafe.AsPointer(ref this));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [VtblIndex(31)]
         public void vfunc31()
         {
-            ((delegate* unmanaged[Thiscall]<CMayaCatapult*, void>)(lpVtbl_Base1[31]))((CMayaCatapult*)Unsafe.AsPointer(ref this));
+            ((delegate* unmanaged[Thiscall]<CMayaCatapult*, void>)(lpVtbl_BaseCPersistance[31]))((CMayaCatapult*)Unsafe.AsPointer(ref this));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [VtblIndex(32)]
         public void vfunc32()
         {
-            ((delegate* unmanaged[Thiscall]<CMayaCatapult*, void>)(lpVtbl_Base1[32]))((CMayaCatapult*)Unsafe.AsPointer(ref this));
+            ((delegate* unmanaged[Thiscall]<CMayaCatapult*, void>)(lpVtbl_BaseCPersistance[32]))((CMayaCatapult*)Unsafe.AsPointer(ref this));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [VtblIndex(33)]
         public void vfunc33()
         {
-            ((delegate* unmanaged[Thiscall]<CMayaCatapult*, void>)(lpVtbl_Base1[33]))((CMayaCatapult*)Unsafe.AsPointer(ref this));
+            ((delegate* unmanaged[Thiscall]<CMayaCatapult*, void>)(lpVtbl_BaseCPersistance[33]))((CMayaCatapult*)Unsafe.AsPointer(ref this));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [VtblIndex(34)]
         public void vfunc34()
         {
-            ((delegate* unmanaged[Thiscall]<CMayaCatapult*, void>)(lpVtbl_Base1[34]))((CMayaCatapult*)Unsafe.AsPointer(ref this));
+            ((delegate* unmanaged[Thiscall]<CMayaCatapult*, void>)(lpVtbl_BaseCPersistance[34]))((CMayaCatapult*)Unsafe.AsPointer(ref this));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -581,119 +582,119 @@ namespace Forge.Game.World.Entities.Native.Units
         [return: NativeTypeName("DWORD")]
         public uint vfunc35()
         {
-            return ((delegate* unmanaged[Thiscall]<CMayaCatapult*, uint>)(lpVtbl_Base1[35]))((CMayaCatapult*)Unsafe.AsPointer(ref this));
+            return ((delegate* unmanaged[Thiscall]<CMayaCatapult*, uint>)(lpVtbl_BaseCPersistance[35]))((CMayaCatapult*)Unsafe.AsPointer(ref this));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [VtblIndex(36)]
         public void vfunc36()
         {
-            ((delegate* unmanaged[Thiscall]<CMayaCatapult*, void>)(lpVtbl_Base1[36]))((CMayaCatapult*)Unsafe.AsPointer(ref this));
+            ((delegate* unmanaged[Thiscall]<CMayaCatapult*, void>)(lpVtbl_BaseCPersistance[36]))((CMayaCatapult*)Unsafe.AsPointer(ref this));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [VtblIndex(37)]
         public void vfunc37()
         {
-            ((delegate* unmanaged[Thiscall]<CMayaCatapult*, void>)(lpVtbl_Base1[37]))((CMayaCatapult*)Unsafe.AsPointer(ref this));
+            ((delegate* unmanaged[Thiscall]<CMayaCatapult*, void>)(lpVtbl_BaseCPersistance[37]))((CMayaCatapult*)Unsafe.AsPointer(ref this));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [VtblIndex(38)]
         public void vfunc38()
         {
-            ((delegate* unmanaged[Thiscall]<CMayaCatapult*, void>)(lpVtbl_Base1[38]))((CMayaCatapult*)Unsafe.AsPointer(ref this));
+            ((delegate* unmanaged[Thiscall]<CMayaCatapult*, void>)(lpVtbl_BaseCPersistance[38]))((CMayaCatapult*)Unsafe.AsPointer(ref this));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [VtblIndex(39)]
         public void vfunc39(int param0)
         {
-            ((delegate* unmanaged[Thiscall]<CMayaCatapult*, int, void>)(lpVtbl_Base1[39]))((CMayaCatapult*)Unsafe.AsPointer(ref this), param0);
+            ((delegate* unmanaged[Thiscall]<CMayaCatapult*, int, void>)(lpVtbl_BaseCPersistance[39]))((CMayaCatapult*)Unsafe.AsPointer(ref this), param0);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [VtblIndex(40)]
         public void vfunc40()
         {
-            ((delegate* unmanaged[Thiscall]<CMayaCatapult*, void>)(lpVtbl_Base1[40]))((CMayaCatapult*)Unsafe.AsPointer(ref this));
+            ((delegate* unmanaged[Thiscall]<CMayaCatapult*, void>)(lpVtbl_BaseCPersistance[40]))((CMayaCatapult*)Unsafe.AsPointer(ref this));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [VtblIndex(41)]
         public void vfunc41([NativeTypeName("DWORD")] uint param0)
         {
-            ((delegate* unmanaged[Thiscall]<CMayaCatapult*, uint, void>)(lpVtbl_Base1[41]))((CMayaCatapult*)Unsafe.AsPointer(ref this), param0);
+            ((delegate* unmanaged[Thiscall]<CMayaCatapult*, uint, void>)(lpVtbl_BaseCPersistance[41]))((CMayaCatapult*)Unsafe.AsPointer(ref this), param0);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [VtblIndex(42)]
         public void vfunc42([NativeTypeName("DWORD")] uint param0)
         {
-            ((delegate* unmanaged[Thiscall]<CMayaCatapult*, uint, void>)(lpVtbl_Base1[42]))((CMayaCatapult*)Unsafe.AsPointer(ref this), param0);
+            ((delegate* unmanaged[Thiscall]<CMayaCatapult*, uint, void>)(lpVtbl_BaseCPersistance[42]))((CMayaCatapult*)Unsafe.AsPointer(ref this), param0);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [VtblIndex(43)]
         public void vfunc43()
         {
-            ((delegate* unmanaged[Thiscall]<CMayaCatapult*, void>)(lpVtbl_Base1[43]))((CMayaCatapult*)Unsafe.AsPointer(ref this));
+            ((delegate* unmanaged[Thiscall]<CMayaCatapult*, void>)(lpVtbl_BaseCPersistance[43]))((CMayaCatapult*)Unsafe.AsPointer(ref this));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [VtblIndex(44)]
         public void vfunc44()
         {
-            ((delegate* unmanaged[Thiscall]<CMayaCatapult*, void>)(lpVtbl_Base1[44]))((CMayaCatapult*)Unsafe.AsPointer(ref this));
+            ((delegate* unmanaged[Thiscall]<CMayaCatapult*, void>)(lpVtbl_BaseCPersistance[44]))((CMayaCatapult*)Unsafe.AsPointer(ref this));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [VtblIndex(45)]
         public void vfunc45()
         {
-            ((delegate* unmanaged[Thiscall]<CMayaCatapult*, void>)(lpVtbl_Base1[45]))((CMayaCatapult*)Unsafe.AsPointer(ref this));
+            ((delegate* unmanaged[Thiscall]<CMayaCatapult*, void>)(lpVtbl_BaseCPersistance[45]))((CMayaCatapult*)Unsafe.AsPointer(ref this));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [VtblIndex(46)]
         public void vfunc46()
         {
-            ((delegate* unmanaged[Thiscall]<CMayaCatapult*, void>)(lpVtbl_Base1[46]))((CMayaCatapult*)Unsafe.AsPointer(ref this));
+            ((delegate* unmanaged[Thiscall]<CMayaCatapult*, void>)(lpVtbl_BaseCPersistance[46]))((CMayaCatapult*)Unsafe.AsPointer(ref this));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [VtblIndex(47)]
         public void vfunc47()
         {
-            ((delegate* unmanaged[Thiscall]<CMayaCatapult*, void>)(lpVtbl_Base1[47]))((CMayaCatapult*)Unsafe.AsPointer(ref this));
+            ((delegate* unmanaged[Thiscall]<CMayaCatapult*, void>)(lpVtbl_BaseCPersistance[47]))((CMayaCatapult*)Unsafe.AsPointer(ref this));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [VtblIndex(48)]
         public void vfunc48()
         {
-            ((delegate* unmanaged[Thiscall]<CMayaCatapult*, void>)(lpVtbl_Base1[48]))((CMayaCatapult*)Unsafe.AsPointer(ref this));
+            ((delegate* unmanaged[Thiscall]<CMayaCatapult*, void>)(lpVtbl_BaseCPersistance[48]))((CMayaCatapult*)Unsafe.AsPointer(ref this));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [VtblIndex(49)]
         public void vfunc49([NativeTypeName("DWORD")] uint param0)
         {
-            ((delegate* unmanaged[Thiscall]<CMayaCatapult*, uint, void>)(lpVtbl_Base1[49]))((CMayaCatapult*)Unsafe.AsPointer(ref this), param0);
+            ((delegate* unmanaged[Thiscall]<CMayaCatapult*, uint, void>)(lpVtbl_BaseCPersistance[49]))((CMayaCatapult*)Unsafe.AsPointer(ref this), param0);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [VtblIndex(50)]
         public void vfunc50([NativeTypeName("DWORD")] uint param0)
         {
-            ((delegate* unmanaged[Thiscall]<CMayaCatapult*, uint, void>)(lpVtbl_Base1[50]))((CMayaCatapult*)Unsafe.AsPointer(ref this), param0);
+            ((delegate* unmanaged[Thiscall]<CMayaCatapult*, uint, void>)(lpVtbl_BaseCPersistance[50]))((CMayaCatapult*)Unsafe.AsPointer(ref this), param0);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [VtblIndex(51)]
         public byte vfunc51()
         {
-            return ((delegate* unmanaged[Thiscall]<CMayaCatapult*, byte>)(lpVtbl_Base1[51]))((CMayaCatapult*)Unsafe.AsPointer(ref this));
+            return ((delegate* unmanaged[Thiscall]<CMayaCatapult*, byte>)(lpVtbl_BaseCPersistance[51]))((CMayaCatapult*)Unsafe.AsPointer(ref this));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -701,42 +702,42 @@ namespace Forge.Game.World.Entities.Native.Units
         [return: NativeTypeName("DWORD")]
         public uint vfunc52()
         {
-            return ((delegate* unmanaged[Thiscall]<CMayaCatapult*, uint>)(lpVtbl_Base1[52]))((CMayaCatapult*)Unsafe.AsPointer(ref this));
+            return ((delegate* unmanaged[Thiscall]<CMayaCatapult*, uint>)(lpVtbl_BaseCPersistance[52]))((CMayaCatapult*)Unsafe.AsPointer(ref this));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [VtblIndex(53)]
         public void vfunc53()
         {
-            ((delegate* unmanaged[Thiscall]<CMayaCatapult*, void>)(lpVtbl_Base1[53]))((CMayaCatapult*)Unsafe.AsPointer(ref this));
+            ((delegate* unmanaged[Thiscall]<CMayaCatapult*, void>)(lpVtbl_BaseCPersistance[53]))((CMayaCatapult*)Unsafe.AsPointer(ref this));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [VtblIndex(54)]
         public void vfunc54([NativeTypeName("DWORD")] uint param0)
         {
-            ((delegate* unmanaged[Thiscall]<CMayaCatapult*, uint, void>)(lpVtbl_Base1[54]))((CMayaCatapult*)Unsafe.AsPointer(ref this), param0);
+            ((delegate* unmanaged[Thiscall]<CMayaCatapult*, uint, void>)(lpVtbl_BaseCPersistance[54]))((CMayaCatapult*)Unsafe.AsPointer(ref this), param0);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [VtblIndex(55)]
         public void vfunc55()
         {
-            ((delegate* unmanaged[Thiscall]<CMayaCatapult*, void>)(lpVtbl_Base1[55]))((CMayaCatapult*)Unsafe.AsPointer(ref this));
+            ((delegate* unmanaged[Thiscall]<CMayaCatapult*, void>)(lpVtbl_BaseCPersistance[55]))((CMayaCatapult*)Unsafe.AsPointer(ref this));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [VtblIndex(56)]
         public void vfunc56(int param0)
         {
-            ((delegate* unmanaged[Thiscall]<CMayaCatapult*, int, void>)(lpVtbl_Base1[56]))((CMayaCatapult*)Unsafe.AsPointer(ref this), param0);
+            ((delegate* unmanaged[Thiscall]<CMayaCatapult*, int, void>)(lpVtbl_BaseCPersistance[56]))((CMayaCatapult*)Unsafe.AsPointer(ref this), param0);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [VtblIndex(0)]
         public void warriorfunc0(int param0, [NativeTypeName("LPVOID")] void* param1, [NativeTypeName("DWORD")] uint param2)
         {
-            ((delegate* unmanaged[Thiscall]<CMayaCatapult*, int, void*, uint, void>)(lpVtbl_Base2[0]))((CMayaCatapult*)Unsafe.AsPointer(ref this), param0, param1, param2);
+            ((delegate* unmanaged[Thiscall]<CMayaCatapult*, int, void*, uint, void>)(lpVtbl_BaseCWarriorBehaviour[0]))((CMayaCatapult*)Unsafe.AsPointer(ref this), param0, param1, param2);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -744,7 +745,7 @@ namespace Forge.Game.World.Entities.Native.Units
         [return: NativeTypeName("DWORD")]
         public uint warriorfunc1()
         {
-            return ((delegate* unmanaged[Thiscall]<CMayaCatapult*, uint>)(lpVtbl_Base2[1]))((CMayaCatapult*)Unsafe.AsPointer(ref this));
+            return ((delegate* unmanaged[Thiscall]<CMayaCatapult*, uint>)(lpVtbl_BaseCWarriorBehaviour[1]))((CMayaCatapult*)Unsafe.AsPointer(ref this));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -752,21 +753,21 @@ namespace Forge.Game.World.Entities.Native.Units
         [return: NativeTypeName("DWORD")]
         public uint warriorfunc2()
         {
-            return ((delegate* unmanaged[Thiscall]<CMayaCatapult*, uint>)(lpVtbl_Base2[2]))((CMayaCatapult*)Unsafe.AsPointer(ref this));
+            return ((delegate* unmanaged[Thiscall]<CMayaCatapult*, uint>)(lpVtbl_BaseCWarriorBehaviour[2]))((CMayaCatapult*)Unsafe.AsPointer(ref this));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [VtblIndex(3)]
         public void warriorfunc3([NativeTypeName("LPVOID")] void* param0, int param1)
         {
-            ((delegate* unmanaged[Thiscall]<CMayaCatapult*, void*, int, void>)(lpVtbl_Base2[3]))((CMayaCatapult*)Unsafe.AsPointer(ref this), param0, param1);
+            ((delegate* unmanaged[Thiscall]<CMayaCatapult*, void*, int, void>)(lpVtbl_BaseCWarriorBehaviour[3]))((CMayaCatapult*)Unsafe.AsPointer(ref this), param0, param1);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [VtblIndex(4)]
         public void warriorfunc4()
         {
-            ((delegate* unmanaged[Thiscall]<CMayaCatapult*, void>)(lpVtbl_Base2[4]))((CMayaCatapult*)Unsafe.AsPointer(ref this));
+            ((delegate* unmanaged[Thiscall]<CMayaCatapult*, void>)(lpVtbl_BaseCWarriorBehaviour[4]))((CMayaCatapult*)Unsafe.AsPointer(ref this));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -774,7 +775,7 @@ namespace Forge.Game.World.Entities.Native.Units
         [return: NativeTypeName("DWORD")]
         public uint vfunc57()
         {
-            return ((delegate* unmanaged[Thiscall]<CMayaCatapult*, uint>)(lpVtbl_Base1[57]))((CMayaCatapult*)Unsafe.AsPointer(ref this));
+            return ((delegate* unmanaged[Thiscall]<CMayaCatapult*, uint>)(lpVtbl_BaseCPersistance[57]))((CMayaCatapult*)Unsafe.AsPointer(ref this));
         }
 
         public interface Interface : CCatapult.Interface

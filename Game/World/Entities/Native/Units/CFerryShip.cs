@@ -5,6 +5,7 @@ using System.Runtime.InteropServices;
 
 namespace Forge.Game.World.Entities.Native.Units
 {
+    // Struct Size: 0x6C
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
     [NativeTypeName("struct CFerryShip : CShip")]
     [NativeInheritance(nameof(CShip))]
@@ -73,7 +74,7 @@ namespace Forge.Game.World.Entities.Native.Units
         public ushort unk_1e;
 
         [NativeInheritance(nameof(IEntity))]
-        [NativeTypeName("__AnonymousRecord_entities_L112_C17")]
+        [NativeTypeName("__AnonymousRecord_entities_L113_C17")]
         public IEntity._Anonymous_e__Struct Anonymous;
 
         [NativeInheritance(nameof(IEntity))]

@@ -5,6 +5,7 @@ using System.Runtime.InteropServices;
 
 namespace Forge.Game.World.Entities.Native
 {
+    // Struct Size: 0x24
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
     [NativeTypeName("struct IEntity : CPersistance")]
     [NativeInheritance(nameof(CPersistance))]
@@ -73,7 +74,7 @@ namespace Forge.Game.World.Entities.Native
         public ushort unk_1e;
 
         [NativeInheritance(nameof(IEntity))]
-        [NativeTypeName("__AnonymousRecord_entities_L112_C17")]
+        [NativeTypeName("__AnonymousRecord_entities_L113_C17")]
         public IEntity._Anonymous_e__Struct Anonymous;
 
         [NativeInheritance(nameof(IEntity))]
@@ -145,6 +146,7 @@ namespace Forge.Game.World.Entities.Native
             Other = 64,
         }
 
+        // Struct Size: 0x1
         public partial struct _Anonymous_e__Struct
         {
             [NativeBitfield("tribe", offset: 0, length: 4)]

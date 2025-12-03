@@ -5,6 +5,7 @@ using System.Runtime.InteropServices;
 
 namespace Forge.Native
 {
+    // Struct Size: 0x4
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public unsafe partial struct CPersistance : CPersistance.Interface
     {

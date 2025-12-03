@@ -4,11 +4,12 @@
 
 // Settlers 4 Entities
 // fields marked with capital S are serialized, a lower case s means that they are serialized but are specially encoded
-#pragma pack(1)
+#pragma pack(push, 1)
 struct CPersistance {
 	virtual LPVOID vfunc0() = 0; // returns some static value. Has probably something to do with serialization or rtti
 	virtual VOID serialize(DWORD *) = 0;
 };
+#pragma pack(pop)
 
 /*
     inline LPVOID* GetVtable() { return (void**)this; }

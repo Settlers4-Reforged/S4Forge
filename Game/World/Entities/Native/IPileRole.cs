@@ -4,6 +4,7 @@ using System.Runtime.CompilerServices;
 
 namespace Forge.Game.World.Entities.Native
 {
+    // Struct Size: 0x4
     [NativeTypeName("struct IPileRole : CPersistance")]
     [NativeInheritance(nameof(CPersistance))]
     public unsafe partial struct IPileRole : IPileRole.Interface

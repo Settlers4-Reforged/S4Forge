@@ -2,6 +2,7 @@
 
 #include "entities.h"
 
+#pragma pack(push, 1)
 struct CVehicle : public IMovingEntity {
     /* +88 _ */ LPVOID unk_58;
     /* +92 S */ BYTE unk_5c;
@@ -153,3 +154,5 @@ struct CRomanWarShip : public CWarShip {/* todo: fill struct */ };
 struct CTrojanWarShip : public CWarShip {/* todo: fill struct */ };
 struct CVikingWarShip : public CWarShip {/* todo: fill struct */ };
 struct CManakopter : public IFlyingEntity {/* todo: fill struct */ };
+
+#pragma pack(pop)

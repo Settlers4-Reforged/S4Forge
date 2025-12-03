@@ -2,6 +2,7 @@
 
 #include "../s4.h"
 
+#pragma pack(push, 1)
 class ISettlerRole : public CPersistance {
     /* + 4 S */ CHAR unk_04;
     /* + 5 S */ BYTE unk_05;
@@ -288,3 +289,5 @@ struct CTree : public IDecoObject {
     /* +71 _ */ BYTE pad_47;
     /* +72 S */ DWORD unk_48;
 };
+
+#pragma pack(pop)

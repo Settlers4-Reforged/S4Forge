@@ -5,6 +5,7 @@ using System.Runtime.InteropServices;
 
 namespace Forge.Game.World.Entities.Native
 {
+    // Struct Size: 0x2C
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
     [NativeTypeName("struct ISettlerRole : CPersistance")]
     [NativeInheritance(nameof(CPersistance))]

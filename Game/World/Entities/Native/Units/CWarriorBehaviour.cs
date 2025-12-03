@@ -4,6 +4,7 @@ using System.Runtime.CompilerServices;
 
 namespace Forge.Game.World.Entities.Native.Units
 {
+    // Struct Size: 0x4
     public unsafe partial struct CWarriorBehaviour : CWarriorBehaviour.Interface
     {
         public void** lpVtbl;

@@ -4,6 +4,7 @@ using System.Runtime.CompilerServices;
 
 namespace Forge.Game.World.Entities.Native
 {
+    // Struct Size: 0xC
     [NativeTypeName("struct CShadowHerb : IDecoObject")]
     [NativeInheritance(nameof(IDecoObject))]
     public unsafe partial struct CShadowHerb : CShadowHerb.Interface
@@ -71,7 +72,7 @@ namespace Forge.Game.World.Entities.Native
         public ushort unk_1e;
 
         [NativeInheritance(nameof(IEntity))]
-        [NativeTypeName("__AnonymousRecord_entities_L112_C17")]
+        [NativeTypeName("__AnonymousRecord_entities_L113_C17")]
         public IEntity._Anonymous_e__Struct Anonymous;
 
         [NativeInheritance(nameof(IEntity))]
