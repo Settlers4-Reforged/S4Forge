@@ -49,7 +49,7 @@
 
         <None Include="README.md" Pack="true" PackagePath="\" />
 
-        <PackageReference Include="AutomaticInterface" Version="5.2.0">
+        <PackageReference Include="AutomaticInterface" Version="5.2.6">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
