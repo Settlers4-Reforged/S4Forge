@@ -56,7 +56,7 @@
 
         <PackageReference Include="DryIoc" Version="5.4.3" PrivateAssets="all" />
         <PackageReference Include="S4Forge.SDK" Version="0.5.*" PrivateAssets="all" />
-        <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
+        <PackageReference Include="Microsoft.SourceLink.GitHub" Version="10.0.103" PrivateAssets="All" />
     </ItemGroup>
 
     <ItemGroup>
